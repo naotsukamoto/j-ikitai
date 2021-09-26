@@ -17,11 +17,11 @@ class User(Base):
 
     teams = relationship("Team", backref="user")
 
-    def __init__(self, email,hashed_password,nickname,favo_team_id,session_time,status,created_at,updated_at):
+    def __init__(self, email=None,hashed_password=None,nickname=None,favo_teams_id=None,session_time=None,status=None,created_at=None,updated_at=None):
         self.email = email
         self.hashed_password = hashed_password
         self.nickname = nickname
-        self.favo_team_id = favo_team_id
+        self.favo_teams_id = favo_teams_id
         self.session_time = session_time
         self.status = status
         self.created_at = created_at
@@ -37,7 +37,7 @@ class Team(Base):
     team_name = Column(String(128),unique = True)
     created_at = Column(DateTime,default = datetime.now())
 
-    def __init__(self, season, team_name, created_at):
+    def __init__(self, season=None, team_name=None, created_at=None):
         self.season = season
         self.team_name = team_name
         self.created_at = created_at

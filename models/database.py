@@ -10,7 +10,7 @@ engine = create_engine("sqlite:///" + datebase_file, convert_unicode=True)
 db_session = scoped_session(
     sessionmaker(
         autocommit = False,
-        autoflash = False,
+        autoflush = False,
         bind = engine
     ))
 Base = declarative_base()
