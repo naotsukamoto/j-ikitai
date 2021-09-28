@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <head>
     <title>Signup | J-ikitai!</title>
+    <link rel=stylesheet type=text/css href="../static/main.css">
 </head>
 <body>
     <h1>J-ikitai!</h1>
-    <br>
+    <div class="container">
+        <hr>
+        <h2>Sign up</h2>
 
-    <h2>Sign up</h2>
+        <form action="/signup" method="post">
+            <h3>ID</h3>
+            <input type="text" name="email" placeholder="example@example.com">
+            <h3>Password</h3>
+            <input type="password" name="password" placeholder="••••••••••••">
+            <h3>Nickname</h3>
+            <input type="text" name="nickname" placeholder="example" >
+            <h3>Select favorite team</h3>
+            {% for team in all_teams %}
+                <input type="radio" name="favo_team_id" value={{team.id}}>
+                {{team.team_name}}:<img src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}">
+            {% endfor %}
 
-    <form action="/signup" method="post">
-        <h3>ID</h3>
-        <input type="text" name="email" placeholder="example@example.com">
-        <h3>Password</h3>
-        <input type="password" name="password" placeholder="••••••••••••">
-        <h3>Nickname</h3>
-        <input type="text" name="nickname" placeholder="example" >
-        <h3>Select team</h3>
-        {% for team in all_teams %}
-            <input type="radio" name="favo_team_id" value={{team.id}}>
-            {{team.team_name}}:<img src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}">
-        {% endfor %}
-
-        <input type="submit" value="アカウント作成">
-    </form>
+            <input type="submit" value="アカウント作成">
+        </form>
+    </div>
 </body>
