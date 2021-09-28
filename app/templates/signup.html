@@ -16,10 +16,11 @@
         <h3>Nickname</h3>
         <input type="text" name="nickname" placeholder="example" >
         <h3>Select team</h3>
-        <div>
-            <input type="radio" name="favo_team_id" value=1 checked>aa
-            <input type="radio" name="favo_team_id" value=2 >bb    
-        </div>
+        {% for team in all_teams %}
+            <input type="radio" name="favo_team_id" value={{team.id}}>
+            {{team.team_name}}:<img src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}">
+        {% endfor %}
+
         <input type="submit" value="アカウント作成">
     </form>
 </body>
