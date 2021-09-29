@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <head>
-    <title>Signup | J-ikitai!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel=stylesheet type=text/css href="../static/main.css">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Signup | J-ikitai!</title>
 </head>
 <body>
     <h1>J-ikitai!</h1>
@@ -18,11 +22,18 @@
             <input type="text" name="nickname" placeholder="example" >
             <h3>Select favorite team</h3>
             {% for team in all_teams %}
-                <input type="radio" name="favo_team_id" value={{team.id}}>
-                {{team.team_name}}:<img src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}">
+                <div class="col-md-2 m-4">
+                    <input type="radio" class="radio" id="{{team.team_name}}" name="favo_team_id" value={{team.id}}>
+                    <div class="favo-team">
+                        <label for="{{team.team_name}}">
+                            <img src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}"></br>      
+                            {{team.team_name}}
+                        </label> 
+                    </div>  
+                </div>
             {% endfor %}
 
-            <input type="submit" value="アカウント作成">
+            <input type="submit" class="" value="アカウント作成">
         </form>
     </div>
 </body>
