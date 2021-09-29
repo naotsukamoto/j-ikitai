@@ -1,6 +1,6 @@
-from flask import Flask,render_template,request,url_for,redirect
+from flask import Flask,render_template,request,url_for,redirect,session
 from app.config import SALT
-from models.models import User
+from models.models import User,Team
 from models.database import db_session
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
@@ -16,7 +16,8 @@ def top():
 # /register 表示
 @app.route("/register")
 def index():
-    return render_template("signup.html")
+    all_teams = Team.query.all()
+    return render_template("signup.html",all_teams=all_teams)
 
 @app.route("/signup",methods=["post"])
 def signup():

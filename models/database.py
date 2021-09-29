@@ -14,7 +14,7 @@ db_session = scoped_session(
         bind = engine
     ))
 Base = declarative_base()
-Base.query = db_session.query_property
+Base.query = db_session.query_property()
 
 def init_db():
     import models.models
