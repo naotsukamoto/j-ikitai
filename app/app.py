@@ -29,11 +29,21 @@ def signup():
     new_user = User(email, hashed_password, nickname, favo_teams_id)
     db_session.add(new_user)
     db_session.commit()
+    session["email"] = email 
     return redirect(url_for("games"))
 
 @app.route("/games")
 def games():
+    # 登録時 or ログイン時に付与したsessionのuserのお気に入りチームを取得
+    user = User.query.filter_by(email=session["email"]).first()
+    favo_team_id = user.favo_team_id
+
+
     return render_template("games.html")
+
+@app.route("/show")
+def show():
+
 
 # import 制御
 if __name__ == "__main__":
