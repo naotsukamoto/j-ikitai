@@ -16,6 +16,7 @@ class User(Base):
     updated_at = Column(DateTime)
 
     teams = relationship("Team", backref="user")
+    teams = relationship("Game", backref="user")
 
     def __init__(self, email=None,hashed_password=None,nickname=None,favo_teams_id=None,session_time=None,status=None,created_at=None,updated_at=None):
         self.email = email
@@ -45,3 +46,27 @@ class Team(Base):
 
     def __repr__(self):
         return '<TeamName %r>' % (self.team_name)
+
+class Game(Base):
+    __tablename__ = "games"
+    id = Column(Integer,primary_key = True)
+    game_date = Column(DateTime)
+    home_team_id = Column(Integer,ForeignKey("teams.id"),nullable = False)
+    away_team_id = Column(Integer,ForeignKey("teams.id"),nullable = False)
+    home_team_score = Column(Integer)
+    away_team_score = Column(Integer)
+    created_at = Column(DateTime,default = datetime.now())
+
+    def __init__(self, game_date=None, home_team_id=None,away_team_id=None, home_team_score=None,away_team_score=None,created_at=None):
+        self.game_date = game_date
+        self.home_team_id = home_team_id
+        self.away_team_id = away_team_id
+        self.home_team_score = home_team_score
+        self.away_team_score = away_team_score
+        self.created_at = created_at
+
+    def __repr__(self):
+        return '<GameName %r>' % (self.game_date)
+
+
+    
