@@ -16,7 +16,6 @@ class User(Base):
     updated_at = Column(DateTime)
 
     teams = relationship("Team", backref="user")
-    teams = relationship("Game", backref="user")
 
     def __init__(self, email=None,hashed_password=None,nickname=None,favo_teams_id=None,session_time=None,status=None,created_at=None,updated_at=None):
         self.email = email
@@ -56,6 +55,10 @@ class Game(Base):
     home_team_score = Column(Integer)
     away_team_score = Column(Integer)
     created_at = Column(DateTime,default = datetime.now())
+
+    # https://docs.sqlalchemy.org/en/14/orm/join_conditions.html
+    # home_team = relationship("Team")
+    # away_team = relationship("Team")
 
     def __init__(self, game_date=None, home_team_id=None,away_team_id=None, home_team_score=None,away_team_score=None,created_at=None):
         self.game_date = game_date

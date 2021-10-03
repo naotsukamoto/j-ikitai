@@ -41,9 +41,6 @@ def games():
 
     return render_template("games.html")
 
-@app.route("/show")
-def show():
-
 
 # import 制御
 if __name__ == "__main__":
