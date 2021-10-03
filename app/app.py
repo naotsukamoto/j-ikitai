@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,url_for,redirect,session
 from app.config import SALT
-from models.models import User,Team
+from models.models import User,Team,Game
 from models.database import db_session
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
@@ -29,17 +29,15 @@ def signup():
     new_user = User(email, hashed_password, nickname, favo_teams_id)
     db_session.add(new_user)
     db_session.commit()
-    session["email"] = email 
-    return redirect(url_for("games"))
+    # お気に入りチームをパラメータとして引き継ぐ
+    return redirect(url_for("games",favo_teams_id=favo_teams_id))
 
-@app.route("/games")
+@app.route("/games",methods=["get","post"])
 def games():
-    # 登録時 or ログイン時に付与したsessionのuserのお気に入りチームを取得
-    user = User.query.filter_by(email=session["email"]).first()
-    favo_team_id = user.favo_team_id
-
-
-    return render_template("games.html")
+    favo_teams_id = request.args.get("favo_teams_id")
+    # 全試合を取得
+    all_games = Game.query.all()
+    return render_template("games.html",favo_teams_id=favo_teams_id,all_games=all_games)
 
 
 # import 制御
