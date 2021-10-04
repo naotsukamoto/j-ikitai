@@ -4,6 +4,8 @@ from models.models import User,Team,Game
 from models.database import db_session
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
+# 予約語or_モジュールのimport
+from sqlalchemy import or_
 
 # Flaskモジュール生成
 app = Flask(__name__)
@@ -35,9 +37,12 @@ def signup():
 @app.route("/games",methods=["get","post"])
 def games():
     favo_teams_id = request.args.get("favo_teams_id")
-    # 全試合を取得
-    all_games = Game.query.all()
-    return render_template("games.html",favo_teams_id=favo_teams_id,all_games=all_games)
+    # お気に入りチームの全試合を取得する
+    games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
+    # 全チーム取得
+    teams = Team.query.all()
+    # hogehoge
+    return render_template("games.html",favo_teams_id=favo_teams_id,games=games,teams=teams)
 
 
 # import 制御
