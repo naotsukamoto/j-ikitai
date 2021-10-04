@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <head>
-    <title>Signup | J-ikitai!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel=stylesheet type=text/css href="../static/main.css">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Games | J-ikitai!</title>
 </head>
 <body>
+    <header>        
+    </header>
+
     <h1>J-ikitai!</h1>
-    <br>
-
-    <h2>Games</h2>
-
+    <div class="container">
+        <hr>
+        <h2>Games</h2>
+        <div>
+            {% for game in games: %}
+                <h3>{{game.game_date}}</h3>
+                <p><span>{{teams[game.home_team_id-1].team_name}}</span> <span>{{game.home_team_score}} - {{game.away_team_score}}</span> <span>{{teams[game.away_team_id-1].team_name}}</span></p>
+            {% endfor %}
+        </div>
+    </div>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <span class="text-muted">Copyright naotsukamoto</span>
+        </div>
+    </footer>
 </body>
