@@ -25,7 +25,7 @@
             <input type="text" name="nickname" placeholder="example" >
             <h3>Select favorite team</h3>
             {% for team in all_teams %}
-                <div class="col-md-2 m-4">
+                <div class="col-md-2 m-4 d-md-inline-block">
                     <input type="radio" class="radio" id="{{team.team_name}}" name="favo_team_id" value={{team.id}}>
                     <div class="favo-team">
                         <label for="{{team.team_name}}">
