@@ -16,9 +16,20 @@
         <hr>
         <h2>Games</h2>
         <div>
+            <p class="col-md-5 d-md-inline-block">HOME</p>
+            <p class="col-md-5 d-md-inline-block">AWAY</p>
+            </br>
             {% for game in games: %}
-                <h3>{{game.game_date}}</h3>
-                <p><span>{{teams[game.home_team_id-1].team_name}}</span> <span>{{game.home_team_score}} - {{game.away_team_score}}</span> <span>{{teams[game.away_team_id-1].team_name}}</span></p>
+                <div class="col-md-1 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}"></div>
+                <div class="col-md-2 d-md-inline-block">{{teams[game.home_team_id-1].team_name}}</div>
+                <div class="col-md-1 d-md-inline-block">{{game.home_team_score}}</div>
+                <div class="col-md-1 d-md-inline-block">-</div>
+                <div class="col-md-1 d-md-inline-block">{{game.away_team_score}}</div>
+                <div class="col-md-2 d-md-inline-block">{{teams[game.away_team_id-1].team_name}}</div>
+                <div class="col-md-1 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.away_team_id-1].team_name ~ '.png')}}"></div>
+                <p class="text-muted m-md-1">{{game.game_date.date().strftime("%Y/%m/%d")}}</p>
+                <p class="text-muted">{{game.game_date.time()}} Kick Off</p>
+                <hr>
             {% endfor %}
         </div>
     </div>
