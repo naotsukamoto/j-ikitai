@@ -20,15 +20,18 @@
             <p class="col-md-5 d-md-inline-block">AWAY</p>
             </br>
             {% for game in games: %}
-                <div class="col-md-1 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}"></div>
-                <div class="col-md-2 d-md-inline-block">{{teams[game.home_team_id-1].team_name}}</div>
-                <div class="col-md-1 d-md-inline-block">{{game.home_team_score}}</div>
+                <div class="col-md-2 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}"></div>
+                <div class="col-md-2 d-md-inline-block fw-bolder">{{teams[game.home_team_id-1].team_name}}</div>
+                <div class="col-md-1 d-md-inline-block fw-bolder">{{game.home_team_score}}</div>
                 <div class="col-md-1 d-md-inline-block">-</div>
-                <div class="col-md-1 d-md-inline-block">{{game.away_team_score}}</div>
-                <div class="col-md-2 d-md-inline-block">{{teams[game.away_team_id-1].team_name}}</div>
-                <div class="col-md-1 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.away_team_id-1].team_name ~ '.png')}}"></div>
+                <div class="col-md-1 d-md-inline-block fw-bolder">{{game.away_team_score}}</div>
+                <div class="col-md-2 d-md-inline-block fw-bolder">{{teams[game.away_team_id-1].team_name}}</div>
+                <div class="col-md-2 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.away_team_id-1].team_name ~ '.png')}}"></div>
                 <p class="text-muted m-md-1">{{game.game_date.date().strftime("%Y/%m/%d")}}</p>
                 <p class="text-muted">{{game.game_date.time()}} Kick Off</p>
+                <button class="btn btn-primary col-md-3 d-md-inline-block" onclick="location.href='#'">試合詳細を見る ></button>
+                <div class="col-md-1 d-md-inline-block"></div>
+                <button class="btn btn-secondary col-md-3 d-md-inline-block" onclick="location.href='#'">観戦ログを見る ></button>
                 <hr>
             {% endfor %}
         </div>
