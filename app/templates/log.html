@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel=stylesheet type=text/css href="../../static/main.css">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <title>Games | J-ikitai!</title>
+</head>
+<body>
+    <header>        
+    </header>
+
+    <h1>J-ikitai!</h1>
+    <div class="container">
+        <hr>
+        <h2>Watching log</h2>
+        </br>
+        <div>
+            <div class="col-md-2 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ home_team.team_name ~ '.png')}}"></div>
+            <div class="col-md-2 d-md-inline-block fw-bolder">{{home_team.team_name}}</div>
+            <div class="col-md-1 d-md-inline-block fw-bolder">{{log_game.home_team_score}}</div>
+            <div class="col-md-1 d-md-inline-block">-</div>
+            <div class="col-md-1 d-md-inline-block fw-bolder">{{log_game.away_team_score}}</div>
+            <div class="col-md-2 d-md-inline-block fw-bolder">{{away_team.team_name}}</div>
+            <div class="col-md-2 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ away_team.team_name ~ '.png')}}"></div>
+            <p class="text-muted m-md-1">{{log_game.game_date.date().strftime("%Y/%m/%d")}}</p>
+            <p class="text-muted">{{log_game.game_date.time()}} Kick Off</p>
+            <hr>
+        </div>
+    </div>    
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <span class="text-muted">Copyright naotsukamoto</span>
+        </div>
+    </footer>
+</body>

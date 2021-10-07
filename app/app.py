@@ -44,6 +44,19 @@ def games():
     # hogehoge
     return render_template("games.html",favo_teams_id=favo_teams_id,games=games,teams=teams)
 
+# To add variable parts to a URL
+# https://qiita.com/5zm/items/c8384aa7b7aae924135c
+@app.route("/games/log/<int:game_id>",methods=["get","post"])
+def log(game_id):
+    # ログを残したい試合を取得
+    log_game = Game.query.filter_by(id=game_id).first()
+    # ホームチーム名取得
+    home_team = Team.query.filter_by(id=log_game.home_team_id).first()
+    # アウェイチーム名取得
+    away_team = Team.query.filter_by(id=log_game.away_team_id).first()
+    log_teams = Team.query.all()
+    return render_template("log.html",log_game=log_game,home_team=home_team,away_team=away_team)
+
 
 # import 制御
 if __name__ == "__main__":

@@ -31,7 +31,7 @@
                 <p class="text-muted">{{game.game_date.time()}} Kick Off</p>
                 <button class="btn btn-primary col-md-3 d-md-inline-block" onclick="location.href='#'">試合詳細を見る ></button>
                 <div class="col-md-1 d-md-inline-block"></div>
-                <button class="btn btn-secondary col-md-3 d-md-inline-block" onclick="location.href='#'">観戦ログを見る ></button>
+                <button class="btn btn-secondary col-md-3 d-md-inline-block" onclick="location.href='/games/log/{{game.id}}'">観戦ログを見る ></button>
                 <hr>
             {% endfor %}
         </div>
