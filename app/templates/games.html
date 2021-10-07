@@ -19,7 +19,7 @@
             <p class="col-md-5 d-md-inline-block">HOME</p>
             <p class="col-md-5 d-md-inline-block">AWAY</p>
             </br>
-            {% for game in games: %}
+            {% for game in favo_all_games: %}
                 <div class="col-md-2 d-md-inline-block mt-md-2"><img src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}"></div>
                 <div class="col-md-2 d-md-inline-block fw-bolder">{{teams[game.home_team_id-1].team_name}}</div>
                 <div class="col-md-1 d-md-inline-block fw-bolder">{{game.home_team_score}}</div>

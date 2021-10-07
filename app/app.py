@@ -38,11 +38,11 @@ def signup():
 def games():
     favo_teams_id = request.args.get("favo_teams_id")
     # お気に入りチームの全試合を取得する
-    games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
+    favo_all_games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
     # 全チーム取得
     teams = Team.query.all()
     # hogehoge
-    return render_template("games.html",favo_teams_id=favo_teams_id,games=games,teams=teams)
+    return render_template("games.html",favo_teams_id=favo_teams_id,favo_all_games=favo_all_games,teams=teams)
 
 # To add variable parts to a URL
 # https://qiita.com/5zm/items/c8384aa7b7aae924135c
@@ -54,7 +54,6 @@ def log(game_id):
     home_team = Team.query.filter_by(id=log_game.home_team_id).first()
     # アウェイチーム名取得
     away_team = Team.query.filter_by(id=log_game.away_team_id).first()
-    log_teams = Team.query.all()
     return render_template("log.html",log_game=log_game,home_team=home_team,away_team=away_team)
 
 
