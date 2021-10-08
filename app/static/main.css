@@ -27,6 +27,39 @@ input:checked + div.favo-team{
     box-shadow: 2px 2px 4px gray;
 }
 
+.status-box{
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+}
+
+.status-label {
+    padding: 0.5rem 1rem;
+    width: 100%;
+    border-radius: 3px;
+    transition: all .2s;
+    border: 1px solid #ACB3BF;
+    color: #ACB3BF;
+}
+
+input.status-box:nth-child(1):checked + .status-label {
+    color: #060389;
+    border: 1px solid #060389;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+}
+
+.status-box:nth-child(3):checked + .status-label {
+    color: #038910;
+    border: 1px solid #038910;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+}
+
+.status-box:nth-child(5):checked + .status-label {
+    color: #890303;
+    border: 1px solid #890303;
+    text-shadow: 0 0 1px rgba(0,0,0,.7);
+}
+
+
 input{
     width: 100%;
     height: 50px;

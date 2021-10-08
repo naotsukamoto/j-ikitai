@@ -16,7 +16,7 @@ class User(Base):
     updated_at = Column(DateTime)
 
     teams = relationship("Team", backref="user")
-    user_watching_logs = relationship("UserWatchingLogs")
+    user_watching_logs = relationship("UserWatchingLog", backref="user")
 
     def __init__(self, email=None,hashed_password=None,nickname=None,favo_teams_id=None,session_time=None,status=None,created_at=None,updated_at=None):
         self.email = email
@@ -47,8 +47,6 @@ class Team(Base):
     def __repr__(self):
         return '<TeamName %r>' % (self.team_name)
 
-    user_watching_logs = relationship("UserWatchingLogs")
-
 class Game(Base):
     __tablename__ = "games"
     id = Column(Integer,primary_key = True)
@@ -73,6 +71,8 @@ class Game(Base):
 
     def __repr__(self):
         return '<GameName %r>' % (self.game_date)
+
+    user_watching_logs = relationship("UserWatchingLog",backref="game")
 
 class UserWatchingLog(Base):
     __tablename__ = "user_watching_logs"
