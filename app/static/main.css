@@ -8,6 +8,8 @@ header{
 
 .container{
     margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 hr{
@@ -27,7 +29,7 @@ input:checked + div.favo-team{
     box-shadow: 2px 2px 4px gray;
 }
 
-.status-box{
+.status-box-1,.status-box-2,.status-box-3{
     clip: rect(1px, 1px, 1px, 1px);
     position: absolute !important;
 }
@@ -41,19 +43,19 @@ input:checked + div.favo-team{
     color: #ACB3BF;
 }
 
-input.status-box:nth-child(1):checked + .status-label {
+.status-box-1:checked + .status-label {
     color: #060389;
     border: 1px solid #060389;
     text-shadow: 0 0 1px rgba(0,0,0,.7);
 }
 
-.status-box:nth-child(3):checked + .status-label {
+.status-box-2:checked + .status-label {
     color: #038910;
     border: 1px solid #038910;
     text-shadow: 0 0 1px rgba(0,0,0,.7);
 }
 
-.status-box:nth-child(5):checked + .status-label {
+.status-box-3:checked + .status-label {
     color: #890303;
     border: 1px solid #890303;
     text-shadow: 0 0 1px rgba(0,0,0,.7);
