@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,url_for,redirect,session
 from app.config import SALT
-from models.models import User,Team,Game
+from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
@@ -46,7 +46,7 @@ def games():
 
 # To add variable parts to a URL
 # https://qiita.com/5zm/items/c8384aa7b7aae924135c
-@app.route("/games/log/<int:game_id>",methods=["get","post"])
+@app.route("/games/log/<int:game_id>/edit",methods=["get","post"])
 def log(game_id):
     # ログを残したい試合を取得
     log_game = Game.query.filter_by(id=game_id).first()
@@ -54,8 +54,21 @@ def log(game_id):
     home_team = Team.query.filter_by(id=log_game.home_team_id).first()
     # アウェイチーム名取得
     away_team = Team.query.filter_by(id=log_game.away_team_id).first()
-    return render_template("log.html",log_game=log_game,home_team=home_team,away_team=away_team)
+    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team)
 
+@app.route("/addlog", methods=["post"])
+def addlog():
+    # session から user_id を取得
+    # session から team_id を取得
+    # form から status を取得
+    status = request.form["status"]
+    # form から comment を取得
+    comment = request.form["comment"]
+    # user_watching_logsテーブルにレコードを追加
+    new_user_watching_logs = UserWatchingLog(user_id,game_id,status,comment)
+    db_session.add(new_user_watching_logs)
+    db.session.commit()
+    return render_template("log.html")
 
 # import 制御
 if __name__ == "__main__":
