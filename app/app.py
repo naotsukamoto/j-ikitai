@@ -1,7 +1,8 @@
 from flask import Flask,render_template,request,url_for,redirect,session
-from app.config import SALT
+from app.config import SALT, SECRET_KEY
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
+from datetime import datetime
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
 # 予約語or_モジュールのimport
@@ -10,10 +11,37 @@ from sqlalchemy import or_
 # Flaskモジュール生成
 app = Flask(__name__)
 
+# セッション情報の暗号化
+app.secret_key = SECRET_KEY
+
+
 # /処理
 @app.route("/")
 def top():
-    return "hello world"
+    return render_template("index.html")
+
+# / でのログイン確認
+@app.route("/login", methods=["post"])
+def login():
+    # ログインフォームに入力したusernameを取得
+    email = request.form["email"]
+    # 対象のusernameのレコードを抽出
+    user = User.query.filter_by(email=email).first()
+    # 対象のusernameのレコードが存在すれば、次にパスワードの確認に進む
+    if user:
+        password = request.form["password"]
+        hashed_password = sha256((email + password + SALT).encode("utf-8")).hexdigest()
+        # ハッシュ化したパスワード同士が一致すれば、セッションをcookieに記録して/index にリダイレクト
+        if user.hashed_password == hashed_password:
+            session["email"] = email
+            favo_teams_id = User.query.filter_by(email=email).first().favo_teams_id
+            return redirect(url_for("games",favo_teams_id=favo_teams_id))
+        else:
+            # ハッシュ化したパスワード同士が一致しなれば、パスワードが間違っていることを伝える
+            return redirect(url_for("index"))
+    else:
+        # 対象のusernameのレコードが存在しなければ、ユーザーが見つからない旨を返す
+        return redirect(url_for("index"))
 
 # /register 表示
 @app.route("/register")
@@ -54,20 +82,23 @@ def log(game_id):
     home_team = Team.query.filter_by(id=log_game.home_team_id).first()
     # アウェイチーム名取得
     away_team = Team.query.filter_by(id=log_game.away_team_id).first()
-    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team)
+    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team,game_id=game_id)
 
 @app.route("/addlog", methods=["post"])
 def addlog():
     # session から user_id を取得
-    # session から team_id を取得
+    user_id = User.query.filter_by(email=session["email"]).first().id
+    # form から game_id を hidden で取得
+    game_id = request.form["game_id"]
     # form から status を取得
     status = request.form["status"]
     # form から comment を取得
     comment = request.form["comment"]
-    # user_watching_logsテーブルにレコードを追加
-    new_user_watching_logs = UserWatchingLog(user_id,game_id,status,comment)
-    db_session.add(new_user_watching_logs)
-    db.session.commit()
+    updated_at = datetime.now()
+    # user_watching_logテーブルにレコードを追加
+    new_user_watching_log = UserWatchingLog(user_id,game_id,status,comment)
+    db_session.add(new_user_watching_log)
+    db_session.commit()
     return render_template("log.html")
 
 # import 制御

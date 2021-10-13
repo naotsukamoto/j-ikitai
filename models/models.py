@@ -61,6 +61,8 @@ class Game(Base):
     # home_team = relationship("Team")
     # away_team = relationship("Team")
 
+    user_watching_logs = relationship("UserWatchingLog",backref="game")
+
     def __init__(self, game_date=None, home_team_id=None,away_team_id=None, home_team_score=None,away_team_score=None,created_at=None):
         self.game_date = game_date
         self.home_team_id = home_team_id
@@ -72,7 +74,6 @@ class Game(Base):
     def __repr__(self):
         return '<GameName %r>' % (self.game_date)
 
-    user_watching_logs = relationship("UserWatchingLog",backref="game")
 
 class UserWatchingLog(Base):
     __tablename__ = "user_watching_logs"
@@ -84,7 +85,7 @@ class UserWatchingLog(Base):
     created_at = Column(DateTime, default = datetime.now())
     updated_at = Column(DateTime)
 
-    def __int__(self, user_id=None, game_id=None, status=None, commnet=None, created_at=None, updated_at=None):
+    def __init__(self, user_id=None, game_id=None, status=None, comment=None, created_at=None, updated_at=None):
         self.user_id = user_id
         self.game_id = game_id
         self.status = status

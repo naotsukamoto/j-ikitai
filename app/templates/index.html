@@ -11,13 +11,19 @@
     <header>        
     </header>
 
-    <h1>J-ikitai!</h1>
+    <h1>J-ikitai!</h1>  
     <div class="container">
         <hr>
-        <h2>Watching log</h2>
+        <h2>Login</h2>
         </br>
-        <!-- userwatching log の情報を出す。レコードがない場合はまだ登録がありません。と出す -->
-        <!-- edit するで、egit_logへの導線を出す -->
+        <form action="/login" method="post">
+            <h3>ID</h3>
+            <input type="text" name="email" placeholder="example@example.com">
+            <h3>Password</h3>
+            <input type="password" name="password" placeholder="••••••••••••">
+            <input type="submit" class="btn btn-primary" value="ログイン">
+        </form>
+        
     </div>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
