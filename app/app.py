@@ -75,14 +75,28 @@ def games():
 # To add variable parts to a URL
 # https://qiita.com/5zm/items/c8384aa7b7aae924135c
 @app.route("/games/log/<int:game_id>/edit",methods=["get","post"])
-def editlog(game_id):
+def edit(game_id):
     # ログを残したい試合を取得
     log_game = Game.query.filter_by(id=game_id).first()
     # ホームチーム名取得
     home_team = Team.query.filter_by(id=log_game.home_team_id).first()
     # アウェイチーム名取得
     away_team = Team.query.filter_by(id=log_game.away_team_id).first()
-    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team,game_id=game_id)
+    # すでに観戦ログがあれば、観戦ログを取得して送る
+    user_id = User.query.filter_by(email=session["email"]).first().id
+    log = UserWatchingLog.query.filter(and_(UserWatchingLog.game_id==game_id,UserWatchingLog.user_id==user_id)).first()
+    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team,game_id=game_id,log=log)
+
+@app.route("/games/log/<int:game_id>/add",methods=["get","post"])
+def add(game_id):
+    # ログを残したい試合を取得
+    log_game = Game.query.filter_by(id=game_id).first()
+    # ホームチーム名取得
+    home_team = Team.query.filter_by(id=log_game.home_team_id).first()
+    # アウェイチーム名取得
+    away_team = Team.query.filter_by(id=log_game.away_team_id).first()
+    return render_template("add_log.html",log_game=log_game,home_team=home_team,away_team=away_team,game_id=game_id)
+
 
 @app.route("/games/log/<int:game_id>",methods=["get"])
 def log(game_id):
