@@ -6,7 +6,7 @@ from datetime import datetime
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
 # 予約語or_モジュールのimport
-from sqlalchemy import or_
+from sqlalchemy import and_,or_
 
 # Flaskモジュール生成
 app = Flask(__name__)
@@ -95,7 +95,7 @@ def log(game_id):
     # session から user_id を取得
     user_id = User.query.filter_by(email=session["email"]).first().id
     # 観戦ログ取得
-    user_log = UserWatchingLog.query.filter(or_(UserWatchingLog.user_id==user_id, UserWatchingLog.game_id==game_id)).first()
+    user_log = UserWatchingLog.query.filter(and_(UserWatchingLog.user_id==user_id, UserWatchingLog.game_id==game_id)).first()
     return render_template("log.html",log_game=log_game,home_team=home_team,away_team=away_team,user_log=user_log)
 
 
