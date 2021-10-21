@@ -16,6 +16,7 @@ class User(Base):
     updated_at = Column(DateTime)
 
     teams = relationship("Team", backref="user")
+    user_watching_logs = relationship("UserWatchingLog", backref="user")
 
     def __init__(self, email=None,hashed_password=None,nickname=None,favo_teams_id=None,session_time=None,status=None,created_at=None,updated_at=None):
         self.email = email
@@ -60,6 +61,8 @@ class Game(Base):
     # home_team = relationship("Team")
     # away_team = relationship("Team")
 
+    user_watching_logs = relationship("UserWatchingLog",backref="game")
+
     def __init__(self, game_date=None, home_team_id=None,away_team_id=None, home_team_score=None,away_team_score=None,created_at=None):
         self.game_date = game_date
         self.home_team_id = home_team_id
@@ -70,6 +73,29 @@ class Game(Base):
 
     def __repr__(self):
         return '<GameName %r>' % (self.game_date)
+
+
+class UserWatchingLog(Base):
+    __tablename__ = "user_watching_logs"
+    id = Column(Integer, primary_key = True)
+    user_id = Column(Integer, ForeignKey("users.id"),nullable = False)
+    game_id = Column(Integer, ForeignKey("games.id"),nullable = False)
+    status = Column(Integer)
+    comment = Column(Text)
+    created_at = Column(DateTime, default = datetime.now())
+    updated_at = Column(DateTime)
+
+    def __init__(self, user_id=None, game_id=None, status=None, comment=None, created_at=None, updated_at=None):
+        self.user_id = user_id
+        self.game_id = game_id
+        self.status = status
+        self.comment = comment
+        self.created_at = created_at
+        self.updated_at = updated_at
+
+    def __repr__(self):
+        return '<UserWatchingLog %r>' % (self.status)
+
 
 
     
