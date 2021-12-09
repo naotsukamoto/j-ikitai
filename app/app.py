@@ -84,8 +84,8 @@ def edit(game_id):
     away_team = Team.query.filter_by(id=log_game.away_team_id).first()
     # すでに観戦ログがあれば、観戦ログを取得して送る
     user_id = User.query.filter_by(email=session["email"]).first().id
-    log = UserWatchingLog.query.filter(and_(UserWatchingLog.game_id==game_id,UserWatchingLog.user_id==user_id)).first()
-    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team,game_id=game_id,log=log)
+    user_log = UserWatchingLog.query.filter(and_(UserWatchingLog.game_id==game_id,UserWatchingLog.user_id==user_id)).first()
+    return render_template("edit_log.html",log_game=log_game,home_team=home_team,away_team=away_team,game_id=game_id,user_log=user_log)
 
 @app.route("/games/log/<int:game_id>/add",methods=["get","post"])
 def add(game_id):
