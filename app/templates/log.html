@@ -33,22 +33,37 @@
         <div> 
             <h3>Status</h3>
             <div class="col-md-3 d-md-inline-block">
-                <label class="status-label" for="status-1">スタジアム観戦</label>
+                {% if user_log.status == 1 %}
+                    <label class="status-label status-label-1-checked" for="status-1" id="status-1" checked="checked">スタジアム観戦</label>
+                {% else %}
+                    <label class="status-label" for="status-1" id="status-1">スタジアム観戦</label>
+                {% endif %}
             </div>
             <div class="col-md-3 d-md-inline-block">
-                <label class="status-label" for="status-2">スタジアム外観戦</label>
+                {% if user_log.status == 2 %}
+                    <label class="status-label status-label-2-checked" for="status-2" id="status-2" checked="checked">スタジアム外観戦</label>
+                {% else %}
+                    <label class="status-label" for="status-2" id="status-2">スタジアム外観戦</label>
+                {% endif %}
             </div>
             <div class="col-md-3 d-md-inline-block">
-                <label class="status-label" for="status-3">未観戦</label>
+                {% if user_log.status == 3 %}
+                    <label class="status-label status-label-3-checked" for="status-3" id="status-3" checked="checked">未観戦</label>
+                {% else %}
+                    <label class="status-label" for="status-3" id="status-3">未観戦</label>
+                {% endif %}
             </div>
             <h3>Comment</h3>
-            <div class="comment-area">
-                {{user_log.comment}}
-            </div>
-            <div class="btn btn-primary edit" onclick="location.href='/games/log/{{log_game.id}}/edit'">編集</div>
+            <div class="comment-area">{{user_log.comment}}</div>
+            {% if user_log %}
+                <div class="btn btn-primary edit" onclick="location.href='/games/log/{{log_game.id}}/edit'">編集</div>
+            {% else %}
+                <div class="btn btn-primary edit" onclick="location.href='/games/log/{{log_game.id}}/add'">新規追加</div>
+            {% endif %}
         </div>
 
     </div>
+    <a href="/games">試合一覧に戻る</a>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
           <span class="text-muted">Copyright naotsukamoto</span>

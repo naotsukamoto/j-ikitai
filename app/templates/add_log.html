@@ -29,38 +29,24 @@
             <hr>
         </div>
         <div> 
-            <form action="/editlog" method="post">
+            <form action="/addlog" method="post">
                 <h3>Status</h3>
                 <input type="hidden" name="game_id" value={{game_id}}>
                 <div class="col-md-3 d-md-inline-block">
-                    {% if user_log.status == 1 %}
-                        <input type="radio" class="status-box-1" id="status-1" name="status" value="1" checked="checked">
-                    {% else %}
-                        <input type="radio" class="status-box-1" id="status-1" name="status" value="1">
-                    {% endif %}
+                    <input type="radio" class="status-box-1" id="status-1" name="status" value="1" checked="checked">
                     <label class="status-label" for="status-1">スタジアム観戦</label>
                 </div>
                 <div class="col-md-3 d-md-inline-block">
-                    {% if user_log.status == 2 %}
-                        <input type="radio" class="status-box-2" id="status-2" name="status" value="2" checked="checked">
-                    {% else %}
-                        <input type="radio" class="status-box-2" id="status-2" name="status" value="2">
-                    {% endif %}
+                    <input type="radio" class="status-box-2" id="status-2" name="status" value="2">
                     <label class="status-label" for="status-2">スタジアム外観戦</label>
                 </div>
-                
                 <div class="col-md-3 d-md-inline-block">
-                    {% if user_log.status == 3 %}
-                        <input type="radio" class="status-box-3" id="status-3" name="status" value="3" checked="checked">
-                    {% else %}
-                        <input type="radio" class="status-box-3" id="status-3" name="status" value="3">
-                    {% endif %}
-                    
+                    <input type="radio" class="status-box-3" id="status-3" name="status" value="3">
                     <label class="status-label" for="status-3">未観戦</label>
                 </div>
                 <h3>Comment</h3>
-                <textarea class="comment-area" name="comment" placeholder="ここには、試合の感想等いれてください。">{{user_log.comment}}</textarea>
-                <input type="submit" class="btn btn-primary" value="更新">
+                <textarea class="comment-area" name="comment" placeholder="ここには、試合の感想等いれてください。"></textarea>
+                <input type="submit" class="btn btn-primary" value="保存">
             </form>
         </div>
     </div>

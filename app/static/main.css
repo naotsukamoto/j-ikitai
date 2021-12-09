@@ -43,19 +43,19 @@ input:checked + div.favo-team{
     color: #ACB3BF;
 }
 
-.status-box-1:checked + .status-label {
+.status-box-1:checked + .status-label, .status-label-1-checked {
     color: #060389;
     border: 1px solid #060389;
     text-shadow: 0 0 1px rgba(0,0,0,.7);
 }
 
-.status-box-2:checked + .status-label {
+.status-box-2:checked + .status-label, .status-label-2-checked {
     color: #038910;
     border: 1px solid #038910;
     text-shadow: 0 0 1px rgba(0,0,0,.7);
 }
 
-.status-box-3:checked + .status-label {
+.status-box-3:checked + .status-label, .status-label-3-checked {
     color: #890303;
     border: 1px solid #890303;
     text-shadow: 0 0 1px rgba(0,0,0,.7);
@@ -66,10 +66,7 @@ input:checked + div.favo-team{
     line-height: 1.3;
     margin: 10px 0px;
     width: 100%;
-}
-
-.comment-area::placeholder{
-   padding: 20px;
+    padding: 20px;
 }
 
 input{
