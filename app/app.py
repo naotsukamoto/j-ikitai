@@ -34,8 +34,7 @@ def login():
         # ハッシュ化したパスワード同士が一致すれば、セッションをcookieに記録して/index にリダイレクト
         if user.hashed_password == hashed_password:
             session["email"] = email
-            favo_teams_id = User.query.filter_by(email=email).first().favo_teams_id
-            return redirect(url_for("games",favo_teams_id=favo_teams_id))
+            return redirect("/games")
         else:
             # ハッシュ化したパスワード同士が一致しなれば、パスワードが間違っていることを伝える
             return redirect(url_for("index"))
@@ -59,12 +58,14 @@ def signup():
     new_user = User(email, hashed_password, nickname, favo_teams_id)
     db_session.add(new_user)
     db_session.commit()
-    # お気に入りチームをパラメータとして引き継ぐ
-    return redirect(url_for("games",favo_teams_id=favo_teams_id))
+    # 試合一覧にリダイレクト
+    return redirect("/games")
 
 @app.route("/games",methods=["get","post"])
 def games():
     favo_teams_id = request.args.get("favo_teams_id")
+    # お気に入りチームを取得する
+    favo_teams_id = User.query.filter_by(email=session["email"]).first().favo_teams_id
     # お気に入りチームの全試合を取得する
     favo_all_games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
     # 全チーム取得
