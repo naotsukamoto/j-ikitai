@@ -130,6 +130,21 @@ def addlog():
     db_session.commit()
     return redirect("/games/log/" + game_id)
 
+@app.route("/editlog", methods=["post"])
+def editlog():
+    # form から game_id を hidden で取得
+    game_id = request.form["game_id"]
+    # すでに観戦ログがあれば、観戦ログを取得して送る
+    user_id = User.query.filter_by(email=session["email"]).first().id
+    user_log = UserWatchingLog.query.filter(and_(UserWatchingLog.game_id==game_id,UserWatchingLog.user_id==user_id)).first()
+    # status を更新
+    user_log.status = request.form["status"]
+    # commnet を更新
+    user_log.comment = request.form["comment"]
+    db_session.commit()
+    return redirect("/games/log/" + game_id)
+
+
 # import 制御
 if __name__ == "__main__":
     app.run(debug=True)
