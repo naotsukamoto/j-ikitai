@@ -4,6 +4,7 @@ body{
 
 header{
     margin: 50px;
+    text-align: right;
 }
 
 .container{
@@ -18,6 +19,11 @@ hr{
 
 h3{
     text-align: left;
+}
+
+.status{
+    font-size: 12px ;
+    color: red;
 }
 
 .favo-team{

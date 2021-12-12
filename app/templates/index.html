@@ -16,6 +16,18 @@
         <hr>
         <h2>Login</h2>
         </br>
+        新規登録は<a href="/register">こちら</a>
+        
+        <!-- エラーハンドリング -->
+        {% if status == "wrong_password" %}
+        <p class="status">※パスワードが間違っています</p>
+        {% elif status == "user_not_found" %}
+        <p class="status">※ユーザーが存在しません</p>
+        {% elif status == "need_to_login" %}
+        <p class="status">※ログインしてください</p>
+        {% endif %}
+        <!-- エラーハンドリング終わり -->
+
         <form action="/login" method="post">
             <h3>ID</h3>
             <input type="text" name="email" placeholder="example@example.com">
