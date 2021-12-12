@@ -14,6 +14,14 @@ app = Flask(__name__)
 # セッション情報の暗号化
 app.secret_key = SECRET_KEY
 
+# # ログイン確認を共通化
+# def is_login():
+#     if "email" in session:
+#         exit()
+#     else:
+#         status = "need_to_login"
+#         return redirect(url_for("index",status=status))
+        
 
 # /処理
 @app.route("/")
