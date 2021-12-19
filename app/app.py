@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,url_for,redirect,session
-from app.config import SALT, SECRET_KEY
+from app.config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
 from datetime import datetime
@@ -7,9 +7,20 @@ from datetime import datetime
 from hashlib import sha256
 # 予約語or_モジュールのimport
 from sqlalchemy import and_,or_
+# flask_mailモジュールから、Mailインスタンスを利用を宣言
+from flask_mail import Mail, Message
 
 # Flaskモジュール生成
 app = Flask(__name__)
+
+# Mailインスタンスを生成
+app.config['MAIL_SERVER']= MAIL_SERVER
+app.config['MAIL_PORT'] = MAIL_PORT
+app.config['MAIL_USERNAME'] = MAIL_USERNAME
+app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
+app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
+app.config['MAIL_USE_SSL'] = MAIL_USE_SSL
+mail = Mail(app)
 
 # セッション情報の暗号化
 app.secret_key = SECRET_KEY
@@ -48,6 +59,14 @@ def login():
         # ハッシュ化したパスワード同士が一致すれば、セッションをcookieに記録して/index にリダイレクト
         if user.hashed_password == hashed_password:
             session["email"] = email
+            # ログイン成功したらメールを送付する
+            msg = Message("Login successfully",
+                sender="m0naaa0u@gmail.com",
+                recipients = ["m0naaa0u@gmail.com"]
+            )
+            msg.body = "Thank you for using app.Login successfully"
+            print(msg)
+            mail.send(msg)
             return redirect("/games")
         else:
             # パスワードエラーのステータスを格納
