@@ -61,7 +61,6 @@ def login():
             session["email"] = email
             # ログイン成功したらメールを送付する
             msg = Message("Login successfully",
-                sender="m0naaa0u@gmail.com",
                 recipients = ["m0naaa0u@gmail.com"]
             )
             msg.body = "Thank you for using app.Login successfully"
