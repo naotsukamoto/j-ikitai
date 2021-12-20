@@ -9,6 +9,11 @@ from hashlib import sha256
 from sqlalchemy import and_,or_
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
+# Flask-APScheduler の利用を宣言
+# from flask_apscheduler import APScheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
+# import zoneinfo
+import zoneinfo
 
 # Flaskモジュール生成
 app = Flask(__name__)
@@ -22,6 +27,11 @@ app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
 app.config['MAIL_USE_SSL'] = MAIL_USE_SSL
 mail = Mail(app)
 
+# Schedulerのインスタンスを作成
+# app.config['SCHEDULER_API_ENABLED'] = True
+# scheduler = APScheduler()
+
+
 # セッション情報の暗号化
 app.secret_key = SECRET_KEY
 
@@ -34,7 +44,22 @@ app.secret_key = SECRET_KEY
 #         return redirect(url_for("index",status=status))
         
 
-# /処理
+# scheduler処理
+def sendmail():
+    with app.app_context():
+        msg = Message("【j-ikitai】Notification",
+            sender="m0naaa0u@gmail.com",
+            recipients = ["m0naaa0u@gmail.com"]
+        )
+        msg.body = "It's time to record your watching logs of today's game!"
+        mail.send(msg)
+
+def run():
+    scheduler = BlockingScheduler({'apscheduler.timezone': 'Asia/Tokyo'})
+    scheduler.add_job(sendmail,'cron',hour=1,minute=30)
+    scheduler.start()
+
+# route処理
 @app.route("/")
 def top():
     return redirect("index")
@@ -61,10 +86,10 @@ def login():
             session["email"] = email
             # ログイン成功したらメールを送付する
             msg = Message("Login successfully",
+                sender="m0naaa0u@gmail.com",
                 recipients = ["m0naaa0u@gmail.com"]
             )
             msg.body = "Thank you for using app.Login successfully"
-            print(msg)
             mail.send(msg)
             return redirect("/games")
         else:
