@@ -11,9 +11,11 @@ from sqlalchemy import and_,or_
 from flask_mail import Mail, Message
 # Flask-APScheduler の利用を宣言
 # from flask_apscheduler import APScheduler
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 # import zoneinfo
 import zoneinfo
+# import datetime
+import datetime
 
 # Flaskモジュール生成
 app = Flask(__name__)
@@ -45,19 +47,33 @@ app.secret_key = SECRET_KEY
         
 
 # scheduler処理
+
+# # 全ユーザーを取得しそれぞれにnotice_timeを発行する
+# # session から ログイン中のuser を取得
+# user = User.query.filter_by(email=session["email"]).first()
+# # お気に入りチームを取得する
+# favo_teams_id = user.favo_teams_id
+# # お気に入りチームの最新の試合を取得する
+# latest_game = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).order_by(Game.game_date.desc()).first()
+# print(latest_game)
+# # ゲームの終了日時の5分後のdatetimeを返す
+# notice_timedate = latest_game.game_date + datetime.timedelta(days=19,hours=10,minutes=16)
+
 def sendmail():
     with app.app_context():
-        msg = Message("【j-ikitai】Notification",
+        notice = Message("【j-ikitai】Notification",
             sender="m0naaa0u@gmail.com",
+            # 今後は、会員ユーザーごとにジョブを発行するようにする
             recipients = ["m0naaa0u@gmail.com"]
         )
-        msg.body = "It's time to record your watching logs of today's game!"
-        mail.send(msg)
+        notice.body = "It's time to record your watching logs of today's game!"
+        mail.send(notice)
+# scheduler を使う
+scheduler = BackgroundScheduler({'apscheduler.timezone': 'Asia/Tokyo'})
+# scheduler.add_job(sendmail,'cron',year=notice_timedate.year,month=notice_timedate.month,day=notice_timedate.day,hour=notice_timedate.hour,minute=notice_timedate.minute)
+scheduler.add_job(sendmail,'cron',hour=17,minute=18)
+scheduler.start()
 
-def run():
-    scheduler = BlockingScheduler({'apscheduler.timezone': 'Asia/Tokyo'})
-    scheduler.add_job(sendmail,'cron',hour=1,minute=30)
-    scheduler.start()
 
 # route処理
 @app.route("/")
@@ -90,7 +106,7 @@ def login():
                 recipients = ["m0naaa0u@gmail.com"]
             )
             msg.body = "Thank you for using app.Login successfully"
-            mail.send(msg)
+            # mail.send(msg)
             return redirect("/games")
         else:
             # パスワードエラーのステータスを格納
