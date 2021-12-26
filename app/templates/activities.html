@@ -20,9 +20,9 @@
         <div>
             {% for log in logs %}
             <div>
-                {{log.user_id}}:{{log.game_id}}
-                <p>{{log.status}}</p>
-                <p>{{log.comment}}</p>
+                {{log.User.nickname}}さんが、{{log.Game.home_team_id}}vs{{log.Game.home_team_id}}の試合を
+                {{log.UserWatchingLog.status}}で観戦しました!
+                <p>{{log.UserWatchingLog.comment}}</p>
             {% endfor %}
             </div>
         </div>

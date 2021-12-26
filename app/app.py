@@ -6,7 +6,7 @@ from datetime import datetime
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
 # 予約語or_モジュールのimport
-from sqlalchemy import and_,or_
+from sqlalchemy import and_,or_,not_
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
 # Flask-APScheduler の利用を宣言
@@ -269,7 +269,15 @@ def activities():
     if "email" in session:
         own_user_id = User.query.filter_by(email=session["email"]).first().id
         # 自分以外の観戦ログを取得
-        logs = UserWatchingLog.query.filter(UserWatchingLog.user_id!=own_user_id).all()
+        # logs = UserWatchingLog.query.join(User,User.id == UserWatchingLog.user_id).\
+        #     join(Game,Game.id == UserWatchingLog.game_id).\
+        #     join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
+        #     filter(not_(UserWatchingLog.user_id == own_user_id)).all()
+        logs = db_session.query(UserWatchingLog,User,Game,Team).\
+        join(User,User.id == UserWatchingLog.user_id).\
+        join(Game,Game.id == UserWatchingLog.game_id).\
+        join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
+        filter(not_(UserWatchingLog.user_id == own_user_id)).all()
         return render_template("activities.html",logs=logs)
     else:
         status = "need_to_login"
