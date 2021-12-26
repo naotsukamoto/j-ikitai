@@ -19,21 +19,51 @@
         <h2>Mate-activities</h2>
         <div>
             {% for log in logs %}
-            <div>
-                <p>{{log.User.nickname}}</p>
-                <p>{{log.UserWatchingLog.created_at.strftime("%Y/%m/%d")}}</p>
+            <div class="log-box">
+                <p class="fw-bold">{{log.User.nickname}}</p>
+                <p class="fw-light text-muted font-mini">{{log.UserWatchingLog.created_at.strftime("%Y/%m/%d")}}</p>
                 {% if log.User.favo_teams_id == log.Game.home_team_id %}
-                    <p>vs{{teams[log.Game.away_team_id-1].team_name}}
-                        <img src="{{url_for('static',filename='images/' ~ teams[log.Game.away_team_id-1].team_name ~ '.png')}}">
+                    <p class="d-inline">
+                        vs{{teams[log.Game.away_team_id-1].team_name}}
+                        <img class="logo-mini d-inline" src="{{url_for('static',filename='images/' ~ teams[log.Game.away_team_id-1].team_name ~ '.png')}}">
                         {{log.Game.home_team_score}} - {{log.Game.away_team_score}}
-                        観戦ステータス：{{log.UserWatchingLog.status}}
+                        <div class="status-mini">
+                            {% if log.UserWatchingLog.status == 1 %}
+                                <label class="status-label status-label-1-checked" for="status-1" id="status-1" checked="checked">スタジアム観戦</label>
+                            {% endif %}
+                        </div>
+                        <div class="status-mini">
+                            {% if log.UserWatchingLog.status == 2 %}
+                                <label class="status-label status-label-2-checked" for="status-2" id="status-2" checked="checked">スタジアム外観戦</label>
+                            {% endif %}
+                        </div>
+                        <div class="status-mini">
+                            {% if log.UserWatchingLog.status == 3 %}
+                                <label class="status-label status-label-3-checked" for="status-3" id="status-3" checked="checked">未観戦</label>
+                            {% endif %}
+                        </div>
                     </p>
                 {% else %}
-                <p>vs{{teams[log.Game.home_team_id-1].team_name}}
-                    <img src="{{url_for('static',filename='images/' ~ teams[log.Game.home_team_id-1].team_name ~ '.png')}}">
-                    {{log.Game.away_team_score}} - {{log.Game.home_team_score}}
-                    観戦ステータス：{{log.UserWatchingLog.status}}
-                </p>
+                    <p class="d-inline">
+                        vs{{teams[log.Game.home_team_id-1].team_name}}
+                        <img class="logo-mini d-inline" src="{{url_for('static',filename='images/' ~ teams[log.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {{log.Game.away_team_score}} - {{log.Game.home_team_score}}
+                        <div class="status-mini">
+                            {% if log.UserWatchingLog.status == 1 %}
+                                <label class="status-label status-label-1-checked" for="status-1" id="status-1" checked="checked">スタジアム観戦</label>
+                            {% endif %}
+                        </div>
+                        <div class="status-mini">
+                            {% if log.UserWatchingLog.status == 2 %}
+                                <label class="status-label status-label-2-checked" for="status-2" id="status-2" checked="checked">スタジアム外観戦</label>
+                            {% endif %}
+                        </div>
+                        <div class="status-mini">
+                            {% if log.UserWatchingLog.status == 3 %}
+                                <label class="status-label status-label-3-checked" for="status-3" id="status-3" checked="checked">未観戦</label>
+                            {% endif %}
+                        </div>
+                    </p>
                 {% endif %}
                 <p>{{log.UserWatchingLog.comment}}</p>
                 <hr>

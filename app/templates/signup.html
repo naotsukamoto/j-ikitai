@@ -29,7 +29,7 @@
                     <input type="radio" class="radio" id="{{team.team_name}}" name="favo_team_id" value={{team.id}}>
                     <div class="favo-team">
                         <label for="{{team.team_name}}">
-                            <img src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}"></br>      
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ team.team_name ~ '.png')}}"></br>      
                             {{team.team_name}}
                         </label> 
                     </div>  
