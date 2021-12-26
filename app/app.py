@@ -6,7 +6,7 @@ from datetime import datetime
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
 # 予約語or_モジュールのimport
-from sqlalchemy import and_,or_
+from sqlalchemy import and_,or_,not_
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
 # Flask-APScheduler の利用を宣言
@@ -261,6 +261,32 @@ def editlog():
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
+
+# 他の人の観戦ログ情報を取得する
+@app.route("/mates-activities",methods=["get"])
+def activities():
+    # ログインしていなければ、ログイン画面に遷移させる
+    if "email" in session:
+        own_user_id = User.query.filter_by(email=session["email"]).first().id
+        # 自分以外の観戦ログを取得
+        # logs = UserWatchingLog.query.join(User,User.id == UserWatchingLog.user_id).\
+        #     join(Game,Game.id == UserWatchingLog.game_id).\
+        #     join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
+        #     filter(not_(UserWatchingLog.user_id == own_user_id)).all()
+        logs = db_session.query(UserWatchingLog,User,Game).\
+        join(User,User.id == UserWatchingLog.user_id).\
+        join(Game,Game.id == UserWatchingLog.game_id).\
+        filter(not_(UserWatchingLog.user_id == own_user_id)).\
+        distinct(UserWatchingLog.id).all()
+        
+        # 全チーム取得
+        teams = Team.query.all()
+        return render_template("activities.html",logs=logs,teams=teams)
+    else:
+        status = "need_to_login"
+        return redirect(url_for("index",status=status))
+    
+
 
 # import 制御
 if __name__ == "__main__":

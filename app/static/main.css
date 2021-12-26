@@ -84,11 +84,31 @@ input.radio{
     display:none;
 }
 
-img{
+img.logo-normal{
     width: 150px;
     height: 150px;
 }
 
 .edit{
     width: 100%;
+}
+
+.log-box{
+    text-align: left;
+    font-size:14px;
+    line-height: 10px;
+}
+
+img.logo-mini{
+    width: 30px;
+    height: 30px;
+}
+.font-mini{
+    font-size: 12px;    
+}
+
+.status-mini .status-label{
+    text-align: center;
+    font-size:12px;
+    width:150px;
 }
