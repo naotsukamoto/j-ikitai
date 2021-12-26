@@ -262,6 +262,21 @@ def editlog():
         status = "need_to_login"
         return redirect(url_for("index",status=status))
 
+# 他の人の観戦ログ情報を取得する
+@app.route("/mates-activities",methods=["get"])
+def activities():
+    # ログインしていなければ、ログイン画面に遷移させる
+    if "email" in session:
+        own_user_id = User.query.filter_by(email=session["email"]).first().id
+        # 自分以外の観戦ログを取得
+        logs = UserWatchingLog.query.filter(UserWatchingLog.user_id!=own_user_id).all()
+        return render_template("activities.html",logs=logs)
+    else:
+        status = "need_to_login"
+        return redirect(url_for("index",status=status))
+    
+
+
 # import 制御
 if __name__ == "__main__":
     app.run(debug=True)
