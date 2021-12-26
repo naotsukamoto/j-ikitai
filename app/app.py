@@ -135,6 +135,8 @@ def signup():
     new_user = User(email, hashed_password, nickname, favo_teams_id)
     db_session.add(new_user)
     db_session.commit()
+    # ここでセッションを付与
+    session["email"] = email
     # 試合一覧にリダイレクト
     return redirect("/games")
 
