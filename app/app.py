@@ -273,12 +273,15 @@ def activities():
         #     join(Game,Game.id == UserWatchingLog.game_id).\
         #     join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
         #     filter(not_(UserWatchingLog.user_id == own_user_id)).all()
-        logs = db_session.query(UserWatchingLog,User,Game,Team).\
+        logs = db_session.query(UserWatchingLog,User,Game).\
         join(User,User.id == UserWatchingLog.user_id).\
         join(Game,Game.id == UserWatchingLog.game_id).\
-        join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
-        filter(not_(UserWatchingLog.user_id == own_user_id)).all()
-        return render_template("activities.html",logs=logs)
+        filter(not_(UserWatchingLog.user_id == own_user_id)).\
+        distinct(UserWatchingLog.id).all()
+        
+        # 全チーム取得
+        teams = Team.query.all()
+        return render_template("activities.html",logs=logs,teams=teams)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
