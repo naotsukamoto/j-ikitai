@@ -20,9 +20,23 @@
         <div>
             {% for log in logs %}
             <div>
-                {{log.User.nickname}}さんが、{{teams[log.Game.home_team_id-1].team_name}}vs{{teams[log.Game.away_team_id-1].team_name}}の試合を</br>
-                {{log.UserWatchingLog.status}}で観戦しました!
+                <p>{{log.User.nickname}}</p>
+                <p>{{log.UserWatchingLog.created_at.strftime("%Y/%m/%d")}}</p>
+                {% if log.User.favo_teams_id == log.Game.home_team_id %}
+                    <p>vs{{teams[log.Game.away_team_id-1].team_name}}
+                        <img src="{{url_for('static',filename='images/' ~ teams[log.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {{log.Game.home_team_score}} - {{log.Game.away_team_score}}
+                        観戦ステータス：{{log.UserWatchingLog.status}}
+                    </p>
+                {% else %}
+                <p>vs{{teams[log.Game.home_team_id-1].team_name}}
+                    <img src="{{url_for('static',filename='images/' ~ teams[log.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {{log.Game.away_team_score}} - {{log.Game.home_team_score}}
+                    観戦ステータス：{{log.UserWatchingLog.status}}
+                </p>
+                {% endif %}
                 <p>{{log.UserWatchingLog.comment}}</p>
+                <hr>
             {% endfor %}
             </div>
         </div>
