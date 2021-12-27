@@ -103,6 +103,11 @@ img.logo-mini{
     width: 30px;
     height: 30px;
 }
+
+.log-box p, .log-box div{
+    margin:10px;
+}
+
 .font-mini{
     font-size: 12px;    
 }
@@ -112,3 +117,5 @@ img.logo-mini{
     font-size:12px;
     width:150px;
 }
+
+
