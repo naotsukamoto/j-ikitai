@@ -1,5 +1,5 @@
-function api_like(){
-    var api_url = "http://127.0.0.1:5000/api/like/1" ;
+function api_like(n){
+    var api_url = "http://127.0.0.1:5000/api/like/"+n;
     console.log(api_url);
     var btn_text = document.getElementById("like");
     var request = new XMLHttpRequest();

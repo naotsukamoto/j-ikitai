@@ -67,7 +67,7 @@
                 {% endif %}
                 <p>{{log.UserWatchingLog.comment}}</p>
                 <p>
-                    <a onclick="api_like()">
+                    <a onclick="api_like({{log.UserWatchingLog.id}})">
                         <span id="like">{{log.UserWatchingLog.like}}</span>いいね!
                     </a>
                 </p>
@@ -77,7 +77,8 @@
         </div>
     </div>
     <!-- jsの読み込み -->
-    <script src="../static/js/javascript.js"></script>
+    <script src="../static/js/javascript.js">
+    </script>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
           <span class="text-muted">Copyright naotsukamoto</span>
