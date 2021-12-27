@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,url_for,redirect,session
+from flask import Flask,render_template,request,url_for,redirect,session, jsonify
 from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL, SQLALCHEMY_DATABASE_URI
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
@@ -18,7 +18,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 # import zoneinfo
 import zoneinfo
 # import datetime
-import datetime
+from datetime import datetime
 
 # Flaskモジュール生成
 app = Flask(__name__)
@@ -276,23 +276,35 @@ def activities():
     if "email" in session:
         own_user_id = User.query.filter_by(email=session["email"]).first().id
         # 自分以外の観戦ログを取得
-        # logs = UserWatchingLog.query.join(User,User.id == UserWatchingLog.user_id).\
-        #     join(Game,Game.id == UserWatchingLog.game_id).\
-        #     join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
-        #     filter(not_(UserWatchingLog.user_id == own_user_id)).all()
         logs = db_session.query(UserWatchingLog,User,Game).\
         join(User,User.id == UserWatchingLog.user_id).\
         join(Game,Game.id == UserWatchingLog.game_id).\
         filter(not_(UserWatchingLog.user_id == own_user_id)).\
         distinct(UserWatchingLog.id).all()
-        
         # 全チーム取得
         teams = Team.query.all()
+        print(type(logs))
         return render_template("activities.html",logs=logs,teams=teams)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
     
+# like を返すAPIを作成する
+@app.route("/api/like/<int:user_watching_log_id>")
+def like(user_watching_log_id):
+    if "email" in session:
+        # 現在のuserwatchinglogを取得する
+        log = UserWatchingLog.query.filter_by(id=user_watching_log_id).first()
+        # 1足す
+        log.like += 1
+        # 保存する
+        db_session.commit()
+        # json形式でデータを返す
+        return jsonify({"like":log.like})
+    else:
+        # 404を返す処理
+        status = "need_to_login"
+        return redirect(url_for("index",status=status))
 
 
 # import 制御
