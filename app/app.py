@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,url_for,redirect,session
-from app.config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
+from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL, SQLALCHEMY_DATABASE_URI
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
 from datetime import datetime
@@ -9,6 +9,9 @@ from hashlib import sha256
 from sqlalchemy import and_,or_,not_
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
+# flask_migrateからMigrateの利用を宣言
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 # Flask-APScheduler の利用を宣言
 # from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -20,6 +23,15 @@ import datetime
 # Flaskモジュール生成
 app = Flask(__name__)
 
+# The Flask-Migrate extension expects a db instance from Flask-SQLAlchemy there:
+# https://github.com/miguelgrinberg/Flask-Migrate/issues/335#issuecomment-623153869
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+# Migrateモジュールを生成
+migrate = Migrate(app, db)
+
 # Mailインスタンスを生成
 app.config['MAIL_SERVER']= MAIL_SERVER
 app.config['MAIL_PORT'] = MAIL_PORT
@@ -28,11 +40,6 @@ app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
 app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
 app.config['MAIL_USE_SSL'] = MAIL_USE_SSL
 mail = Mail(app)
-
-# Schedulerのインスタンスを作成
-# app.config['SCHEDULER_API_ENABLED'] = True
-# scheduler = APScheduler()
-
 
 # セッション情報の暗号化
 app.secret_key = SECRET_KEY

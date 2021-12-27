@@ -82,14 +82,16 @@ class UserWatchingLog(Base):
     game_id = Column(Integer, ForeignKey("games.id"),nullable = False)
     status = Column(Integer)
     comment = Column(Text)
+    like = Column(Integer, default = 0)
     created_at = Column(DateTime, default = datetime.now())
     updated_at = Column(DateTime)
 
-    def __init__(self, user_id=None, game_id=None, status=None, comment=None, created_at=None, updated_at=None):
+    def __init__(self, user_id=None, game_id=None, status=None, comment=None, like=None, created_at=None, updated_at=None):
         self.user_id = user_id
         self.game_id = game_id
         self.status = status
         self.comment = comment
+        self.like = like
         self.created_at = created_at
         self.updated_at = updated_at
 
