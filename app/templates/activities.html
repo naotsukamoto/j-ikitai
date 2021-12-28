@@ -10,12 +10,8 @@
     <title>Games | J-ikitai!</title>
 </head>
 <body>
-    <header>
-        <span class="col-md-1"><a href="/games"><i class="list"></i></a></span>
-        <span class="col-md-1"><a href="/mate-activities"><i class="user-friends"></i></a></span>
-        <span>{{user_email}}</span>
-        <a href="/logout">ログアウト</a>
-    </header>
+    <!-- header を共通化 -->
+    {% include "header.html" %}s
 
     <h1>J-ikitai!</h1>
     <div class="container">
