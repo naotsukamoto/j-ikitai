@@ -3,8 +3,12 @@ body{
 }
 
 header{
-    margin: 50px;
+    margin: 20px 10%;
     text-align: right;
+}
+
+header span{
+    margin:5px;
 }
 
 .container{

@@ -5,11 +5,15 @@
     <link rel=stylesheet type=text/css href="../static/main.css">
     <!-- Bootstrap CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- fontawesome -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <title>Games | J-ikitai!</title>
 </head>
 <body>
     <header>
-        <span class="user-email">{{user_email}}</span>
+        <span class="col-md-1"><a href="/games"><i class="list"></i></a></span>
+        <span class="col-md-1"><a href="/mate-activities"><i class="user-friends"></i></a></span>
+        <span>{{user_email}}</span>
         <a href="/logout">ログアウト</a>
     </header>
 
