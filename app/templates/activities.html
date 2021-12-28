@@ -44,26 +44,26 @@
                         </div>
                     </p>
                 {% else %}
-                    <p class="d-inline">
+                    <p>
                         vs{{teams[log.Game.home_team_id-1].team_name}}
                         <img class="logo-mini d-inline" src="{{url_for('static',filename='images/' ~ teams[log.Game.home_team_id-1].team_name ~ '.png')}}">
                         {{log.Game.away_team_score}} - {{log.Game.home_team_score}}
-                        <div class="status-mini">
-                            {% if log.UserWatchingLog.status == 1 %}
-                                <label class="status-label status-label-1-checked" for="status-1" id="status-1" checked="checked">スタジアム観戦</label>
-                            {% endif %}
-                        </div>
-                        <div class="status-mini">
-                            {% if log.UserWatchingLog.status == 2 %}
-                                <label class="status-label status-label-2-checked" for="status-2" id="status-2" checked="checked">スタジアム外観戦</label>
-                            {% endif %}
-                        </div>
-                        <div class="status-mini">
-                            {% if log.UserWatchingLog.status == 3 %}
-                                <label class="status-label status-label-3-checked" for="status-3" id="status-3" checked="checked">未観戦</label>
-                            {% endif %}
-                        </div>
                     </p>
+                    <div class="status-mini">
+                        {% if log.UserWatchingLog.status == 1 %}
+                            <label class="status-label status-label-1-checked" for="status-1" id="status-1" checked="checked">スタジアム観戦</label>
+                        {% endif %}
+                    </div>
+                    <div class="status-mini">
+                        {% if log.UserWatchingLog.status == 2 %}
+                            <label class="status-label status-label-2-checked" for="status-2" id="status-2" checked="checked">スタジアム外観戦</label>
+                        {% endif %}
+                    </div>
+                    <div class="status-mini">
+                        {% if log.UserWatchingLog.status == 3 %}
+                            <label class="status-label status-label-3-checked" for="status-3" id="status-3" checked="checked">未観戦</label>
+                        {% endif %}
+                    </div>
                 {% endif %}
                 <p>{{log.UserWatchingLog.comment}}</p>
                 <p class="like">
@@ -72,8 +72,8 @@
                     </a>
                 </p>
                 <hr>
-            {% endfor %}
             </div>
+            {% endfor %}
         </div>
     </div>
     <!-- jsの読み込み -->
