@@ -1,5 +1,5 @@
-from flask import Flask,render_template,request,url_for,redirect,session
-from app.config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
+from flask import Flask,render_template,request,url_for,redirect,session, jsonify
+from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL, SQLALCHEMY_DATABASE_URI
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
 from datetime import datetime
@@ -9,16 +9,28 @@ from hashlib import sha256
 from sqlalchemy import and_,or_,not_
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
+# flask_migrateからMigrateの利用を宣言
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 # Flask-APScheduler の利用を宣言
 # from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 # import zoneinfo
 import zoneinfo
 # import datetime
-import datetime
+from datetime import datetime
 
 # Flaskモジュール生成
 app = Flask(__name__)
+
+# The Flask-Migrate extension expects a db instance from Flask-SQLAlchemy there:
+# https://github.com/miguelgrinberg/Flask-Migrate/issues/335#issuecomment-623153869
+app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+# Migrateモジュールを生成
+migrate = Migrate(app, db)
 
 # Mailインスタンスを生成
 app.config['MAIL_SERVER']= MAIL_SERVER
@@ -28,11 +40,6 @@ app.config['MAIL_PASSWORD'] = MAIL_PASSWORD
 app.config['MAIL_USE_TLS'] = MAIL_USE_TLS
 app.config['MAIL_USE_SSL'] = MAIL_USE_SSL
 mail = Mail(app)
-
-# Schedulerのインスタンスを作成
-# app.config['SCHEDULER_API_ENABLED'] = True
-# scheduler = APScheduler()
-
 
 # セッション情報の暗号化
 app.secret_key = SECRET_KEY
@@ -269,23 +276,35 @@ def activities():
     if "email" in session:
         own_user_id = User.query.filter_by(email=session["email"]).first().id
         # 自分以外の観戦ログを取得
-        # logs = UserWatchingLog.query.join(User,User.id == UserWatchingLog.user_id).\
-        #     join(Game,Game.id == UserWatchingLog.game_id).\
-        #     join(Team, or_(Game.home_team_id == Team.id, Game.away_team_id == Team.id)).\
-        #     filter(not_(UserWatchingLog.user_id == own_user_id)).all()
         logs = db_session.query(UserWatchingLog,User,Game).\
         join(User,User.id == UserWatchingLog.user_id).\
         join(Game,Game.id == UserWatchingLog.game_id).\
         filter(not_(UserWatchingLog.user_id == own_user_id)).\
         distinct(UserWatchingLog.id).all()
-        
         # 全チーム取得
         teams = Team.query.all()
+        print(type(logs))
         return render_template("activities.html",logs=logs,teams=teams)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
     
+# like を返すAPIを作成する
+@app.route("/api/like/<int:user_watching_log_id>")
+def like(user_watching_log_id):
+    if "email" in session:
+        # 現在のuserwatchinglogを取得する
+        log = UserWatchingLog.query.filter_by(id=user_watching_log_id).first()
+        # 1足す
+        log.like += 1
+        # 保存する
+        db_session.commit()
+        # json形式でデータを返す
+        return jsonify({"like":log.like})
+    else:
+        # 404を返す処理
+        status = "need_to_login"
+        return redirect(url_for("index",status=status))
 
 
 # import 制御

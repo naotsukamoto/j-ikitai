@@ -5,13 +5,13 @@
     <link rel=stylesheet type=text/css href="../static/main.css">
     <!-- Bootstrap CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- fontawesome -->
+    <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>Games | J-ikitai!</title>
 </head>
 <body>
-    <header>
-        <span class="user-email">{{user_email}}</span>
-        <a href="/logout">ログアウト</a>
-    </header>
+    <!-- header を共通化 -->
+    {% include "header.html" %}s
 
     <h1>J-ikitai!</h1>
     <div class="container">
@@ -66,11 +66,19 @@
                     </p>
                 {% endif %}
                 <p>{{log.UserWatchingLog.comment}}</p>
+                <p class="like">
+                    <a onclick="api_like({{log.UserWatchingLog.id}})">
+                        <span id="like">{{log.UserWatchingLog.like}}</span> <i class="far fa-thumbs-up"></i>
+                    </a>
+                </p>
                 <hr>
             {% endfor %}
             </div>
         </div>
     </div>
+    <!-- jsの読み込み -->
+    <script src="../static/js/javascript.js">
+    </script>
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
           <span class="text-muted">Copyright naotsukamoto</span>

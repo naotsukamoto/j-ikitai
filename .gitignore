@@ -1,4 +1,4 @@
 __pycache__/
 .vscode/
-app/config.py
+config.py
 models/j-ikitai.db
