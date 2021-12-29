@@ -165,20 +165,31 @@ def games():
         # お気に入りチームを取得する
         favo_teams_id = user.favo_teams_id
         # お気に入りチームの全試合を取得する
-        favo_all_games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
-        ## お気に入りチームの、今日の日付以前の試合の中で最後の試合を取得する
-        favo_past_games_data = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).filter(Game.game_date <= datetime(year=2021,month=10,day=5))
+        favo_home_games = db_session.query(Game,Team,UserWatchingLog).\
+            join(Team, Team.id == Game.home_team_id).\
+            outerjoin(UserWatchingLog,UserWatchingLog.game_id == Game.id).\
+            filter(Game.home_team_id==favo_teams_id).\
+            distinct(Game.id)
+        favo_away_games = db_session.query(Game,Team,UserWatchingLog).\
+            join(Team, Team.id == Game.away_team_id).\
+            outerjoin(UserWatchingLog,UserWatchingLog.game_id == Game.id).\
+            filter(Game.away_team_id==favo_teams_id).\
+            distinct(Game.id)
+        favo_all_games_data = favo_home_games.union(favo_away_games)
+        favo_all_games = favo_all_games_data.all()
+        # お気に入りチームの、過去の試合を取得する
+        favo_past_games_data = favo_all_games_data.filter(Game.game_date <= datetime(year=2021,month=10,day=5))
         favo_past_games = favo_past_games_data.all()
+        # お気に入りチームの、今日の日付以前の試合の中で最後の試合を取得する
         favo_recent_game = favo_past_games_data.order_by(Game.id.desc()).first()
-        # お気に入りチームの次の試合を取得する
+        # お気に入りチームの、次の試合を取得する
         if len(favo_past_games) != len(favo_all_games):
             favo_next_game = favo_all_games[len(favo_past_games)]
         else:
-            favo_next_game = "not found"        
+            favo_next_game = "not found"  
         # 全チーム取得
         teams = Team.query.all()
-        # hogehoge
-        return render_template("games-v1.html",favo_teams_id=favo_teams_id,favo_all_games=favo_all_games,teams=teams,user_email=user_email,favo_recent_game=favo_recent_game,favo_next_game=favo_next_game)
+        return render_template("games-v1.html",favo_teams_id=favo_teams_id,teams=teams,favo_all_games=favo_all_games,favo_recent_game=favo_recent_game,favo_next_game=favo_next_game)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))

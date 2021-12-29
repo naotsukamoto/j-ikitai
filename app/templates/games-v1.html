@@ -19,41 +19,61 @@
         <h2>Games</h2>
         <div>
             <h5>直近の試合</h5>
-            {% if favo_recent_game.home_team_id == favo_teams_id  %}
-                <div class="col-md-2 d-md-inline-block mt-md-2"><img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.away_team_id-1].team_name ~ '.png')}}"></div>
+            {% if favo_recent_game.Game.home_team_id == favo_teams_id  %}
+                <div class="col-md-2 d-md-inline-block mt-md-2">
+                    <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    <div>
+                        <!-- いいね数を表示 -->
+                        <span><i class="far fa-thumbs-up"></i></span>
+                        <!-- 観戦ログへの導線を設置 -->
+                        <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                    </div>
+                </div>
             {% else %}
-                <div class="col-md-2 d-md-inline-block mt-md-2"><img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.home_team_id-1].team_name ~ '.png')}}"></div>
+                <div class="col-md-2 d-md-inline-block mt-md-2">
+                    <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    <div>
+                        <!-- いいね数を表示 -->
+                        <span><i class="far fa-thumbs-up"></i></span>
+                        <!-- 観戦ログへの導線を設置 -->
+                        <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                    </div>
+                </div>
             {% endif %}
             <h5>次の試合</h5>
             {% if favo_next_game == "not found" %}
                 <p>なし</p>
             {% else %}
-                {% if favo_next_game.home_team_id == favo_teams_id  %}
-                    <div class="col-md-2 d-md-inline-block mt-md-2"><img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.away_team_id-1].team_name ~ '.png')}}"></div>
+                {% if favo_next_game.Game.home_team_id == favo_teams_id  %}
+                    <div class="col-md-2 d-md-inline-block mt-md-2">
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    </div>
                 {% else %}
-                    <div class="col-md-2 d-md-inline-block mt-md-2"><img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.home_team_id-1].team_name ~ '.png')}}"></div>
+                    <div class="col-md-2 d-md-inline-block mt-md-2">
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    </div>
                 {% endif %}
             {% endif %}
             <h5>過去の試合</h5>
             {% for game in favo_all_games: %}
-                {% if game.home_team_id == favo_teams_id  %}
+                {% if game.Game.home_team_id == favo_teams_id  %}
                     <div class="col-md-2 d-md-inline-block mt-md-2">
-                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.away_team_id-1].team_name ~ '.png')}}">
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
                         <div>
                             <!-- いいね数を表示 -->
                             <span><i class="far fa-thumbs-up"></i></span>
                             <!-- 観戦ログへの導線を設置 -->
-                            <span><a href="/games/log/{{game.id}}"><i class="fas fa-pen"></i></a></span>
+                            <span><a href="/games/log/{{game.Game.id}}"><i class="fas fa-pen"></i></a></span>
                         </div>
                     </div>
                 {% else %}
                     <div class="col-md-2 d-md-inline-block mt-md-2">
-                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}">
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
                         <div>
                             <!-- いいね数を表示 -->
                             <span><i class="far fa-thumbs-up"></i></span>
                             <!-- 観戦ログへの導線を設置 -->
-                            <span><a href="/games/log/{{game.id}}"><i class="fas fa-pen"></i></a></span>
+                            <span><a href="/games/log/{{game.Game.id}}"><i class="fas fa-pen"></i></a></span>
                         </div>
                     </div>
                     
