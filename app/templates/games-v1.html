@@ -37,9 +37,26 @@
             <h5>過去の試合</h5>
             {% for game in favo_all_games: %}
                 {% if game.home_team_id == favo_teams_id  %}
-                    <div class="col-md-2 d-md-inline-block mt-md-2"><img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.away_team_id-1].team_name ~ '.png')}}"></div>
+                    <div class="col-md-2 d-md-inline-block mt-md-2">
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.away_team_id-1].team_name ~ '.png')}}">
+                        <div>
+                            <!-- いいね数を表示 -->
+                            <span><i class="far fa-thumbs-up"></i></span>
+                            <!-- 観戦ログへの導線を設置 -->
+                            <span><a href="/games/log/{{game.id}}"><i class="fas fa-pen"></i></a></span>
+                        </div>
+                    </div>
                 {% else %}
-                    <div class="col-md-2 d-md-inline-block mt-md-2"><img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}"></div>
+                    <div class="col-md-2 d-md-inline-block mt-md-2">
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.home_team_id-1].team_name ~ '.png')}}">
+                        <div>
+                            <!-- いいね数を表示 -->
+                            <span><i class="far fa-thumbs-up"></i></span>
+                            <!-- 観戦ログへの導線を設置 -->
+                            <span><a href="/games/log/{{game.id}}"><i class="fas fa-pen"></i></a></span>
+                        </div>
+                    </div>
+                    
                 {% endif %}
             {% endfor %}
         </div>
