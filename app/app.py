@@ -2,7 +2,7 @@ from flask import Flask,render_template,request,url_for,redirect,session, jsonif
 from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL, SQLALCHEMY_DATABASE_URI
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
-from datetime import datetime
+from datetime import datetime,date
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
 # 予約語or_モジュールのimport
@@ -166,10 +166,19 @@ def games():
         favo_teams_id = user.favo_teams_id
         # お気に入りチームの全試合を取得する
         favo_all_games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
+        ## お気に入りチームの、今日の日付以前の試合の中で最後の試合を取得する
+        favo_past_games_data = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).filter(Game.game_date <= datetime(year=2021,month=10,day=5))
+        favo_past_games = favo_past_games_data.all()
+        favo_recent_game = favo_past_games_data.order_by(Game.id.desc()).first()
+        # お気に入りチームの次の試合を取得する
+        if len(favo_past_games) != len(favo_all_games):
+            favo_next_game = favo_all_games[len(favo_past_games)]
+        else:
+            favo_next_game = "not found"        
         # 全チーム取得
         teams = Team.query.all()
         # hogehoge
-        return render_template("games.html",favo_teams_id=favo_teams_id,favo_all_games=favo_all_games,teams=teams,user_email=user_email)
+        return render_template("games-v1.html",favo_teams_id=favo_teams_id,favo_all_games=favo_all_games,teams=teams,user_email=user_email,favo_recent_game=favo_recent_game,favo_next_game=favo_next_game)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
