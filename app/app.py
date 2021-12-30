@@ -7,11 +7,10 @@ from datetime import datetime,date
 from hashlib import sha256
 # 予約語or_モジュールのimport
 from sqlalchemy import and_,or_,not_
+# aliasedをimport
+from sqlalchemy.orm import aliased
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
-# flask_migrateからMigrateの利用を宣言
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 # Flask-APScheduler の利用を宣言
 # from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -22,15 +21,6 @@ from datetime import datetime
 
 # Flaskモジュール生成
 app = Flask(__name__)
-
-# The Flask-Migrate extension expects a db instance from Flask-SQLAlchemy there:
-# https://github.com/miguelgrinberg/Flask-Migrate/issues/335#issuecomment-623153869
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-# Migrateモジュールを生成
-migrate = Migrate(app, db)
 
 # Mailインスタンスを生成
 app.config['MAIL_SERVER']= MAIL_SERVER
@@ -164,15 +154,17 @@ def games():
         user_email = user.email
         # お気に入りチームを取得する
         favo_teams_id = user.favo_teams_id
-        # お気に入りチームの全試合を取得する
-        favo_home_games = db_session.query(Game,Team,UserWatchingLog).\
+        # UserWatchingLog を自分のだけにfilterしておく
+        my_log_subq = UserWatchingLog.query.filter_by(user_id = user.id).subquery() # お気に入りチームの全試合を取得する
+        # お気に入りチームの、全試合を取得する
+        favo_home_games = db_session.query(Game,Team,my_log_subq).\
             join(Team, Team.id == Game.home_team_id).\
-            outerjoin(UserWatchingLog,UserWatchingLog.game_id == Game.id).\
+            outerjoin(my_log_subq,my_log_subq.c.game_id == Game.id).\
             filter(Game.home_team_id==favo_teams_id).\
             distinct(Game.id)
-        favo_away_games = db_session.query(Game,Team,UserWatchingLog).\
+        favo_away_games = db_session.query(Game,Team,my_log_subq).\
             join(Team, Team.id == Game.away_team_id).\
-            outerjoin(UserWatchingLog,UserWatchingLog.game_id == Game.id).\
+            outerjoin(my_log_subq,my_log_subq.c.game_id == Game.id).\
             filter(Game.away_team_id==favo_teams_id).\
             distinct(Game.id)
         favo_all_games_data = favo_home_games.union(favo_away_games)

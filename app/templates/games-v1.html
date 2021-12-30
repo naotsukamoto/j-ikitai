@@ -21,7 +21,11 @@
             <h5>直近の試合</h5>
             {% if favo_recent_game.Game.home_team_id == favo_teams_id  %}
                 <div class="col-md-2 d-md-inline-block mt-md-2">
-                    <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    {% if favo_recent_game.status %}
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    {% else %}
+                        <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    {% endif %}
                     <div>
                         <!-- いいね数を表示 -->
                         <span><i class="far fa-thumbs-up"></i></span>
@@ -31,7 +35,11 @@
                 </div>
             {% else %}
                 <div class="col-md-2 d-md-inline-block mt-md-2">
-                    <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% if favo_recent_game.status %}
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% else %}
+                        <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% endif %}
                     <div>
                         <!-- いいね数を表示 -->
                         <span><i class="far fa-thumbs-up"></i></span>
@@ -46,11 +54,19 @@
             {% else %}
                 {% if favo_next_game.Game.home_team_id == favo_teams_id  %}
                     <div class="col-md-2 d-md-inline-block mt-md-2">
-                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% if favo_next_game.status %}
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% else %}
+                            <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% endif %}
                     </div>
                 {% else %}
                     <div class="col-md-2 d-md-inline-block mt-md-2">
-                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% if favo_next_game.status %}
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% else %}
+                            <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endif %}
@@ -58,7 +74,11 @@
             {% for game in favo_all_games: %}
                 {% if game.Game.home_team_id == favo_teams_id  %}
                     <div class="col-md-2 d-md-inline-block mt-md-2">
-                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% if game.status %}
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% else %}
+                            <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% endif %}
                         <div>
                             <!-- いいね数を表示 -->
                             <span><i class="far fa-thumbs-up"></i></span>
@@ -68,7 +88,11 @@
                     </div>
                 {% else %}
                     <div class="col-md-2 d-md-inline-block mt-md-2">
-                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% if game.UserWatchingLog %}
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% else %}
+                            <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% endif %}
                         <div>
                             <!-- いいね数を表示 -->
                             <span><i class="far fa-thumbs-up"></i></span>

@@ -93,6 +93,10 @@ img.logo-normal{
     height: 150px;
 }
 
+img.logo-no-log{
+    opacity: 30%;
+}
+
 .edit{
     width: 100%;
 }
