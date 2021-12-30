@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,url_for,redirect,session, jsonify
-from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL, SQLALCHEMY_DATABASE_URI
+from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
 from datetime import datetime,date
@@ -295,7 +295,6 @@ def activities():
         distinct(UserWatchingLog.id).all()
         # 全チーム取得
         teams = Team.query.all()
-        print(type(logs))
         return render_template("activities.html",logs=logs,teams=teams)
     else:
         status = "need_to_login"
