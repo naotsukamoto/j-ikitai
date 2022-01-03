@@ -325,23 +325,6 @@ def like(user_watching_log_id):
         status = "need_to_login"
         return redirect(url_for("index",status=status))
 
-def changestatus(user_watching_log_id,change_status):
-    if "email" in session:
-        # 現在のuserwatchinglogを取得する
-        log = UserWatchingLog.query.filter_by(id=user_watching_log_id).first()
-        # statusを更新する
-        log.status = change_status
-        # 保存する
-        db_session.commit()
-        # json形式でデータを返す
-        return jsonify({"status":log.status})
-    else:
-        # 404を返す処理
-        status = "need_to_login"
-        return redirect(url_for("index",status=status))
-
-
-
 # import 制御
 if __name__ == "__main__":
     app.run(debug=True)
