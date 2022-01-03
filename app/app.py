@@ -1,17 +1,16 @@
 from flask import Flask,render_template,request,url_for,redirect,session, jsonify
-from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL, SQLALCHEMY_DATABASE_URI
+from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
 from models.models import User,Team,Game,UserWatchingLog
 from models.database import db_session
-from datetime import datetime
+from datetime import datetime,date
 # ハッシュ化されたパスワード生成のためにimport
 from hashlib import sha256
 # 予約語or_モジュールのimport
 from sqlalchemy import and_,or_,not_
+# aliasedをimport
+from sqlalchemy.orm import aliased
 # flask_mailモジュールから、Mailインスタンスを利用を宣言
 from flask_mail import Mail, Message
-# flask_migrateからMigrateの利用を宣言
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 # Flask-APScheduler の利用を宣言
 # from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -19,18 +18,11 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import zoneinfo
 # import datetime
 from datetime import datetime
+# import Enum
+from enum import Enum
 
 # Flaskモジュール生成
 app = Flask(__name__)
-
-# The Flask-Migrate extension expects a db instance from Flask-SQLAlchemy there:
-# https://github.com/miguelgrinberg/Flask-Migrate/issues/335#issuecomment-623153869
-app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-
-# Migrateモジュールを生成
-migrate = Migrate(app, db)
 
 # Mailインスタンスを生成
 app.config['MAIL_SERVER']= MAIL_SERVER
@@ -81,6 +73,12 @@ scheduler = BackgroundScheduler({'apscheduler.timezone': 'Asia/Tokyo'})
 scheduler.add_job(sendmail,'cron',hour=17,minute=18)
 scheduler.start()
 
+# ステータスをEnumで定義
+class StatusEnum(Enum):
+    スタジアム観戦 = 1
+    スタジアム外観戦 = 2
+    未観戦 = 3
+    ー = None
 
 # route処理
 @app.route("/")
@@ -164,12 +162,34 @@ def games():
         user_email = user.email
         # お気に入りチームを取得する
         favo_teams_id = user.favo_teams_id
-        # お気に入りチームの全試合を取得する
-        favo_all_games = Game.query.filter(or_(Game.home_team_id==favo_teams_id,Game.away_team_id==favo_teams_id)).all()
+        # UserWatchingLog を自分のだけにfilterしておく
+        my_log_subq = UserWatchingLog.query.filter_by(user_id = user.id).subquery() # お気に入りチームの全試合を取得する
+        # お気に入りチームの、全試合を取得する
+        favo_home_games = db_session.query(Game,Team,my_log_subq).\
+            join(Team, Team.id == Game.home_team_id).\
+            outerjoin(my_log_subq,my_log_subq.c.game_id == Game.id).\
+            filter(Game.home_team_id==favo_teams_id).\
+            distinct(Game.id)
+        favo_away_games = db_session.query(Game,Team,my_log_subq).\
+            join(Team, Team.id == Game.away_team_id).\
+            outerjoin(my_log_subq,my_log_subq.c.game_id == Game.id).\
+            filter(Game.away_team_id==favo_teams_id).\
+            distinct(Game.id)
+        favo_all_games_data = favo_home_games.union(favo_away_games)
+        favo_all_games = favo_all_games_data.all()
+        # お気に入りチームの、過去の試合を取得する
+        favo_past_games_data = favo_all_games_data.filter(Game.game_date <= datetime(year=2021,month=10,day=5))
+        favo_past_games = favo_past_games_data.all()
+        # お気に入りチームの、今日の日付以前の試合の中で最後の試合を取得する
+        favo_recent_game = favo_past_games_data.order_by(Game.id.desc()).first()
+        # お気に入りチームの、次の試合を取得する
+        if len(favo_past_games) != len(favo_all_games):
+            favo_next_game = favo_all_games[len(favo_past_games)]
+        else:
+            favo_next_game = "not found"  
         # 全チーム取得
         teams = Team.query.all()
-        # hogehoge
-        return render_template("games.html",favo_teams_id=favo_teams_id,favo_all_games=favo_all_games,teams=teams,user_email=user_email)
+        return render_template("games-v1.html",favo_teams_id=favo_teams_id,teams=teams,favo_all_games=favo_all_games,favo_recent_game=favo_recent_game,favo_next_game=favo_next_game,status_enum=StatusEnum)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
@@ -283,7 +303,6 @@ def activities():
         distinct(UserWatchingLog.id).all()
         # 全チーム取得
         teams = Team.query.all()
-        print(type(logs))
         return render_template("activities.html",logs=logs,teams=teams)
     else:
         status = "need_to_login"
@@ -305,7 +324,6 @@ def like(user_watching_log_id):
         # 404を返す処理
         status = "need_to_login"
         return redirect(url_for("index",status=status))
-
 
 # import 制御
 if __name__ == "__main__":

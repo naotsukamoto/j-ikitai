@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel=stylesheet type=text/css href="../static/main.css">
+    <!-- Bootstrap CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <!-- fontawesome -->
+    <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Games | J-ikitai!</title>
+</head>
+<body>
+    <!-- header を共通化 -->
+    {% include "header.html" %}
+
+    <h1>J-ikitai!</h1>
+    <div class="container">
+        <hr>
+        <h2>Games</h2>
+        <div class="d-md-flex justify-content-md-center">
+            {% if favo_recent_game.Game.home_team_id == favo_teams_id  %}
+                <div class="col-md-2 d-md-inline-block mt-md-2">
+                    <h5>直近の試合</h5>
+                    {% if favo_recent_game.status %}
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        <div>
+                            <div><label class="status-label status-label-{{favo_recent_game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(favo_recent_game.status).name}}</label></div>
+                            <!-- いいね数を表示 -->
+                            <span><i class="far fa-thumbs-up"></i></span>
+                            <!-- 観戦ログへの導線を設置 -->
+                            <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                        </div>
+                    {% else %}
+                        <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        <div>
+                            <div><label class="status-label status-label-{{favo_recent_game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(favo_recent_game.status).name}}</label></div>
+                            <!-- いいね数を表示 -->
+                            <span><i class="far fa-thumbs-up"></i></span>
+                            <!-- 観戦ログへの導線を設置 -->
+                            <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                        </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="col-md-2 d-md-inline-block mt-md-2">
+                    <h5>直近の試合</h5>
+                    {% if favo_recent_game.status %}
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% else %}
+                        <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% endif %}
+                    <div>
+                        <label class="status-label status-label-{{favo_recent_game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(favo_recent_game.status).name}}</label>
+                        <!-- いいね数を表示 -->
+                        <span><i class="far fa-thumbs-up"></i></span>
+                        <!-- 観戦ログへの導線を設置 -->
+                        <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                    </div>
+                </div>
+            {% endif %}
+            {% if favo_next_game == "not found" %}
+                <h5 class="">次の試合</h5>
+                <p>なし</p>
+            {% else %}
+                {% if favo_next_game.Game.home_team_id == favo_teams_id  %}
+                    <div class="col-md-2 d-md-inline-block mt-md-2">
+                        <h5 class="">次の試合</h5>
+                        {% if favo_next_game.status %}
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% else %}
+                            <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="col-md-2 d-md-inline-block mt-md-2">
+                        <h5 class="">次の試合</h5>
+                        {% if favo_next_game.status %}
+                            <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% else %}
+                            <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_next_game.Game.home_team_id-1].team_name ~ '.png')}}">
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        <h5>過去の試合</h5>
+        {% for game in favo_all_games: %}
+            {% if game.Game.home_team_id == favo_teams_id  %}
+                <div class="col-md-2 d-md-inline-block mt-md-2">
+                    {% if game.status %}
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    {% else %}
+                        <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
+                    {% endif %}
+                    <div>
+                        <div><label class="status-label status-label-{{game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(game.status).name}}</label></div>
+                        <!-- いいね数を表示 -->
+                        <span><i class="far fa-thumbs-up"></i></span>
+                        <!-- 観戦ログへの導線を設置 -->
+                        <span><a href="/games/log/{{game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-md-2 d-md-inline-block mt-md-2">
+                    {% if game.UserWatchingLog %}
+                        <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% else %}
+                        <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
+                    {% endif %}
+                    <div>
+                        <div><label class="status-label status-label-{{game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(game.status).name}}</label></div>
+                        <!-- いいね数を表示 -->
+                        <span><i class="far fa-thumbs-up"></i></span>
+                        <!-- 観戦ログへの導線を設置 -->
+                        <span><a href="/games/log/{{game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                    </div>
+                </div>
+                
+            {% endif %}
+        {% endfor %}
+    </div>
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+          <span class="text-muted">Copyright naotsukamoto</span>
+        </div>
+    </footer>
+</body>
