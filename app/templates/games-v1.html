@@ -23,15 +23,24 @@
                 <div class="col-md-2 d-md-inline-block mt-md-2">
                     {% if favo_recent_game.status %}
                         <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        <div>
+                            <label class="status-label status-label-{{favo_recent_game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(favo_recent_game.status).name}}</label>
+                            <!-- いいね数を表示 -->
+                            <span><i class="far fa-thumbs-up"></i></span>
+                            <!-- 観戦ログへの導線を設置 -->
+                            <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                        </div>
                     {% else %}
                         <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.away_team_id-1].team_name ~ '.png')}}">
+                        <div>
+                            <label class="status-label status-label-{{favo_recent_game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(favo_recent_game.status).name}}</label>
+                            <!-- いいね数を表示 -->
+                            <span><i class="far fa-thumbs-up"></i></span>
+                            <!-- 観戦ログへの導線を設置 -->
+                            <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
+                        </div>
+    
                     {% endif %}
-                    <div>
-                        <!-- いいね数を表示 -->
-                        <span><i class="far fa-thumbs-up"></i></span>
-                        <!-- 観戦ログへの導線を設置 -->
-                        <span><a href="/games/log/{{favo_recent_game.Game.id}}"><i class="fas fa-pen"></i></a></span>
-                    </div>
                 </div>
             {% else %}
                 <div class="col-md-2 d-md-inline-block mt-md-2">
@@ -41,6 +50,7 @@
                         <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[favo_recent_game.Game.home_team_id-1].team_name ~ '.png')}}">
                     {% endif %}
                     <div>
+                        <label class="status-label status-label-{{favo_recent_game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(favo_recent_game.status).name}}</label>
                         <!-- いいね数を表示 -->
                         <span><i class="far fa-thumbs-up"></i></span>
                         <!-- 観戦ログへの導線を設置 -->
@@ -80,6 +90,7 @@
                             <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.away_team_id-1].team_name ~ '.png')}}">
                         {% endif %}
                         <div>
+                            <label class="status-label status-label-{{game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(game.status).name}}</label>
                             <!-- いいね数を表示 -->
                             <span><i class="far fa-thumbs-up"></i></span>
                             <!-- 観戦ログへの導線を設置 -->
@@ -94,6 +105,7 @@
                             <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
                         {% endif %}
                         <div>
+                            <label class="status-label status-label-{{game.status}}-checked" id=label-{{favo_recent_game.status}} checked="checked">{{status_enum(game.status).name}}</label>
                             <!-- いいね数を表示 -->
                             <span><i class="far fa-thumbs-up"></i></span>
                             <!-- 観戦ログへの導線を設置 -->

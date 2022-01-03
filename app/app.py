@@ -18,6 +18,8 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import zoneinfo
 # import datetime
 from datetime import datetime
+# import Enum
+from enum import Enum
 
 # Flaskモジュール生成
 app = Flask(__name__)
@@ -71,6 +73,12 @@ scheduler = BackgroundScheduler({'apscheduler.timezone': 'Asia/Tokyo'})
 scheduler.add_job(sendmail,'cron',hour=17,minute=18)
 scheduler.start()
 
+# ステータスをEnumで定義
+class StatusEnum(Enum):
+    スタジアム観戦 = 1
+    スタジアム外観戦 = 2
+    未観戦 = 3
+    ー = None
 
 # route処理
 @app.route("/")
@@ -181,7 +189,7 @@ def games():
             favo_next_game = "not found"  
         # 全チーム取得
         teams = Team.query.all()
-        return render_template("games-v1.html",favo_teams_id=favo_teams_id,teams=teams,favo_all_games=favo_all_games,favo_recent_game=favo_recent_game,favo_next_game=favo_next_game)
+        return render_template("games-v1.html",favo_teams_id=favo_teams_id,teams=teams,favo_all_games=favo_all_games,favo_recent_game=favo_recent_game,favo_next_game=favo_next_game,status_enum=StatusEnum)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
@@ -316,6 +324,22 @@ def like(user_watching_log_id):
         # 404を返す処理
         status = "need_to_login"
         return redirect(url_for("index",status=status))
+
+def changestatus(user_watching_log_id,change_status):
+    if "email" in session:
+        # 現在のuserwatchinglogを取得する
+        log = UserWatchingLog.query.filter_by(id=user_watching_log_id).first()
+        # statusを更新する
+        log.status = change_status
+        # 保存する
+        db_session.commit()
+        # json形式でデータを返す
+        return jsonify({"status":log.status})
+    else:
+        # 404を返す処理
+        status = "need_to_login"
+        return redirect(url_for("index",status=status))
+
 
 
 # import 制御
