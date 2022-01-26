@@ -11,7 +11,7 @@
 </head>
 <body>
     <!-- header を共通化 -->
-    {% include "header.html" %}s
+    {% include "header.html" %}
 
     <h1>J-ikitai!</h1>
     <div class="container">
@@ -68,7 +68,7 @@
                 <p>{{log.UserWatchingLog.comment}}</p>
                 <p class="like">
                     <a onclick="api_like({{log.UserWatchingLog.id}})">
-                        <span id="like-{{log.UserWatchingLog.id}}">{{liked_list.count(log.UserWatchingLog.id)}}</span> <i class="far fa-thumbs-up"></i>
+                        <span id="like-{{log.UserWatchingLog.id}}">{{liked_list.count(log.UserWatchingLog.id)}}</span> <i class="far fa-thumbs-up" id="like-icon"></i>
                     </a>
                 </p>
                 <hr>

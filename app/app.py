@@ -329,6 +329,8 @@ def like(user_watching_log_id):
             db_session.commit()
             # 該当のログのいいね数をカウントする
             like_num = len(Like.query.filter_by(user_watching_log_id = user_watching_log_id).all())
+            # like_is が NULLだとjsonifyできないので、0 or 1とする
+            like_is = 0
         # 自分がいいねしている場合
         else:
             # 該当のログを消す
@@ -336,8 +338,13 @@ def like(user_watching_log_id):
             db_session.commit()
             # 該当のログのいいね数をカウントする
             like_num = len(Like.query.filter_by(user_watching_log_id = user_watching_log_id).all())
+            # like_is が NULLだとjsonifyできないので、0 or 1とする
+            like_is = 1
         # json形式でデータを返す
-        return jsonify({"like":like_num})
+        return jsonify({
+            "like":like_num,
+            "like_is":like_is
+            })
     else:
         # 404を返す処理
         status = "need_to_login"
