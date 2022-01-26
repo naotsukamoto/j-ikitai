@@ -1,6 +1,6 @@
 from flask import Flask,render_template,request,url_for,redirect,session, jsonify
 from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
-from models.models import User,Team,Game,UserWatchingLog
+from models.models import User,Team,Game,UserWatchingLog,Like
 from models.database import db_session
 from datetime import datetime,date
 # ハッシュ化されたパスワード生成のためにimport
@@ -303,7 +303,13 @@ def activities():
         distinct(UserWatchingLog.id).all()
         # 全チーム取得
         teams = Team.query.all()
-        return render_template("activities.html",logs=logs,teams=teams)
+        # likes数を取得
+        liked_list = []
+        user_watching_logs = UserWatchingLog.query.all()
+        for log in user_watching_logs:
+            liked_list.append(log.id)
+        print(liked_list)
+        return render_template("activities.html",logs=logs,teams=teams,liked_list=liked_list)
     else:
         status = "need_to_login"
         return redirect(url_for("index",status=status))
@@ -312,14 +318,33 @@ def activities():
 @app.route("/api/like/<int:user_watching_log_id>")
 def like(user_watching_log_id):
     if "email" in session:
-        # 現在のuserwatchinglogを取得する
-        log = UserWatchingLog.query.filter_by(id=user_watching_log_id).first()
-        # 1足す
-        log.like += 1
-        # 保存する
-        db_session.commit()
+        user_id = User.query.filter_by(email = session["email"]).first().id
+        like_is = Like.query.filter(and_(Like.user_watching_log_id == user_watching_log_id,Like.user_id == user_id)).first()
+        # 自分がいいねしていない場合
+        if not like_is:
+            # likesテーブルに記録する
+            like = Like(user_id, user_watching_log_id)
+            # レコード追加＆保存する
+            db_session.add(like)
+            db_session.commit()
+            # 該当のログのいいね数をカウントする
+            like_num = len(Like.query.filter_by(user_watching_log_id = user_watching_log_id).all())
+            # like_is が NULLだとjsonifyできないので、0 or 1とする
+            like_is = 0
+        # 自分がいいねしている場合
+        else:
+            # 該当のログを消す
+            db_session.delete(like_is)
+            db_session.commit()
+            # 該当のログのいいね数をカウントする
+            like_num = len(Like.query.filter_by(user_watching_log_id = user_watching_log_id).all())
+            # like_is が NULLだとjsonifyできないので、0 or 1とする
+            like_is = 1
         # json形式でデータを返す
-        return jsonify({"like":log.like})
+        return jsonify({
+            "like":like_num,
+            "like_is":like_is
+            })
     else:
         # 404を返す処理
         status = "need_to_login"
