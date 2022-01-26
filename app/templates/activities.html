@@ -68,7 +68,7 @@
                 <p>{{log.UserWatchingLog.comment}}</p>
                 <p class="like">
                     <a onclick="api_like({{log.UserWatchingLog.id}})">
-                        <span id="like-{{log.UserWatchingLog.id}}">{{log.UserWatchingLog.like}}</span> <i class="far fa-thumbs-up"></i>
+                        <span id="like-{{log.UserWatchingLog.id}}">{{liked_list.count(log.UserWatchingLog.id)}}</span> <i class="far fa-thumbs-up"></i>
                     </a>
                 </p>
                 <hr>
