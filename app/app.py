@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,url_for,redirect,session, jsonify
+from flask import Flask,render_template,request,url_for,redirect,session, jsonify,Markup
 from config import SALT, SECRET_KEY, MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD, MAIL_USE_TLS, MAIL_USE_SSL
 from models.models import User,Team,Game,UserWatchingLog,Like
 from models.database import db_session
@@ -308,7 +308,6 @@ def activities():
         user_watching_logs = UserWatchingLog.query.all()
         for log in user_watching_logs:
             liked_list.append(log.id)
-        print(liked_list)
         return render_template("activities.html",logs=logs,teams=teams,liked_list=liked_list)
     else:
         status = "need_to_login"
@@ -349,6 +348,13 @@ def like(user_watching_log_id):
         # 404を返す処理
         status = "need_to_login"
         return redirect(url_for("index",status=status))
+
+# 改行するfilterを作成する
+@app.template_filter("newline")
+def start_a_new_line(arg):
+    return Markup(arg.replace('\r','<br>'))
+
+
 
 # import 制御
 if __name__ == "__main__":
