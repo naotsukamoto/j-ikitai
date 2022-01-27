@@ -56,7 +56,7 @@
                 {% endif %}
             </div>
             <h3>Comment</h3>
-            <div class="comment-area">{{user_log.comment}}</div>
+            <div class="comment-area">{{user_log.comment | newline}}</div>
             {% if user_log %}
                 <div class="btn btn-primary edit" onclick="location.href='/games/log/{{log_game.id}}/edit'">編集</div>
             {% else %}
