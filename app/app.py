@@ -20,9 +20,15 @@ import zoneinfo
 from datetime import datetime
 # import Enum
 from enum import Enum
+# import scss
+from flask_scss import Scss
 
 # Flaskモジュール生成
 app = Flask(__name__)
+
+# Scssインスタンスの生成
+Scss(app, asset_dir='app/assets')
+
 
 # Mailインスタンスを生成
 app.config['MAIL_SERVER']= MAIL_SERVER

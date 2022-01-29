@@ -1,136 +1,88 @@
-body{
-    text-align: center;
-}
-
-header{
+body {
+  text-align: center; }
+  body header {
     margin: 20px 10%;
-    text-align: right;
-}
-
-header span{
-    margin:5px;
-}
-
-.container{
+    text-align: right; }
+    body header span {
+      margin: 5px; }
+  body .container {
     margin: 0 auto;
     margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-hr{
-   border-color: #E5E5E5;
-}
-
-h3{
-    text-align: left;
-}
-
-.status{
-    font-size: 12px ;
-    color: red;
-}
-
-.favo-team{
-    cursor: pointer;
-}
-
-input:checked + div.favo-team{
-    color: gray;
-    box-shadow: 2px 2px 4px gray;
-}
-
-.status-box-1,.status-box-2,.status-box-3{
-    clip: rect(1px, 1px, 1px, 1px);
-    display: none;
-}
-
-.status-label {
-    padding: 0.3rem;
-    margin: 0.5rem 0;
-    width: 80%;
-    border-radius: 3px;
-    transition: all .2s;
-    border: 1px solid #ACB3BF;
-    color: #ACB3BF;
-}
-
-.status-box-1:checked + .status-label, .status-label-1-checked {
-    color: #060389;
-    border: 1px solid #060389;
-    text-shadow: 0 0 1px rgba(0,0,0,.7);
-}
-
-.status-box-2:checked + .status-label, .status-label-2-checked {
-    color: #038910;
-    border: 1px solid #038910;
-    text-shadow: 0 0 1px rgba(0,0,0,.7);
-}
-
-.status-box-3:checked + .status-label, .status-label-3-checked {
-    color: #890303;
-    border: 1px solid #890303;
-    text-shadow: 0 0 1px rgba(0,0,0,.7);
-}
-
-.comment-area{
-    height: calc( 1.3em * 10 );
-    line-height: 1.3;
-    margin: 10px 0px;
-    width: 100%;
-    padding: 20px;
-}
-
-input{
-    width: 100%;
-    height: 50px;
-}
-
-input.radio{
-    display:none;
-}
-
-img.logo-normal{
-    width: 150px;
-    height: 150px;
-}
-
-img.logo-no-log{
-    opacity: 30%;
-}
-
-.edit{
-    width: 100%;
-}
-
-.log-box{
-    text-align: left;
-    font-size:14px;
-    line-height: 10px;
-}
-
-.like{
-    cursor: pointer;
-    font-size: 20px;
-    
-}
-
-img.logo-mini{
-    width: 30px;
-    height: 30px;
-}
-
-.log-box p, .log-box div{
-    margin:10px;
-}
-
-.font-mini{
-    font-size: 12px;    
-}
-
-.status-mini .status-label{
-    text-align: center;
-    font-size:12px;
-    width:150px;
-}
-
-
+    margin-bottom: 20px; }
+    body .container hr {
+      border-color: #E5E5E5; }
+      body .container h3 {
+        text-align: left; }
+        body .container .status {
+          font-size: 12px;
+          color: red; }
+          body .container .favo-team {
+            cursor: pointer; }
+            body .container input:checked + div.favo-team {
+              color: gray;
+              box-shadow: 2px 2px 4px gray; }
+              body .container .status-box-1, body .container .status-box-2,
+              body .container .status-box-3 {
+                clip: rect(1px, 1px, 1px, 1px);
+                display: none; }
+                body .container .status-label {
+                  padding: 0.3rem;
+                  margin: 0.5rem 0;
+                  width: 80%;
+                  border-radius: 3px;
+                  transition: all 0.2s;
+                  border: 1px solid #ACB3BF;
+                  color: #ACB3BF; }
+                  body .container .status-box-1:checked + .status-label,
+                  body .container .status-label-1-checked {
+                    color: #060389;
+                    border: 1px solid #060389;
+                    text-shadow: 0 0 1px rgba(0, 0, 0, 0.7); }
+                    body .container .status-box-2:checked + .status-label,
+                    body .container .status-label-2-checked {
+                      color: #038910;
+                      border: 1px solid #038910;
+                      text-shadow: 0 0 1px rgba(0, 0, 0, 0.7); }
+                      body .container .status-box-3:checked + .status-label,
+                      body .container .status-label-3-checked {
+                        color: #890303;
+                        border: 1px solid #890303;
+                        text-shadow: 0 0 1px rgba(0, 0, 0, 0.7); }
+                        body .container .comment-area {
+                          height: calc( 1.3em * 10 );
+                          line-height: 1.3;
+                          margin: 10px 0px;
+                          width: 100%;
+                          padding: 20px; }
+                          body .container input {
+                            width: 100%;
+                            height: 50px; }
+                            body .container input .radio {
+                              display: none; }
+    body .container .logo-normal {
+      width: 150px;
+      height: 150px; }
+      body .container .logo-no-log {
+        opacity: 30%; }
+        body .container .logo-mini {
+          width: 30px;
+          height: 30px; }
+          body .container .edit {
+            width: 100%; }
+            body .container .log-box {
+              text-align: left;
+              font-size: 14px;
+              line-height: 10px; }
+              body .container .like {
+                cursor: pointer;
+                font-size: 20px; }
+                body .container .log-box p {
+                  margin: 10px; }
+                  body .container .log-box div {
+                    margin: 10px; }
+    body .container .font-mini {
+      font-size: 12px; }
+      body .container .status-mini .status-label {
+        text-align: center;
+        font-size: 12px;
+        width: 150px; }
