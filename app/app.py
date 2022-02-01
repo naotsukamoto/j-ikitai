@@ -358,9 +358,8 @@ def like(user_watching_log_id):
 # 改行するfilterを作成する
 @app.template_filter("newline")
 def start_a_new_line(arg):
-    return Markup(arg.replace('\r','<br>'))
-
-
+    if arg: 
+        return Markup(arg.replace('\r','<br>'))
 
 # import 制御
 if __name__ == "__main__":

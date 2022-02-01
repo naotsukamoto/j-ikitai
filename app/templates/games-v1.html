@@ -102,7 +102,7 @@
                 </div>
             {% else %}
                 <div class="col-md-2 d-md-inline-block mt-md-2">
-                    {% if game.UserWatchingLog %}
+                    {% if game.status %}
                         <img class="logo-normal" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
                     {% else %}
                         <img class="logo-normal logo-no-log" src="{{url_for('static',filename='images/' ~ teams[game.Game.home_team_id-1].team_name ~ '.png')}}">
