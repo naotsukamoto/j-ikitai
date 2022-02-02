@@ -89,6 +89,11 @@ body {
         font-size: 12px;
         width: 150px; }
 
+@media screen and (min-width:768px) {
+  .hamburger, .globalMenuSp {
+    display: none;   }
+}
+
 @media screen and (max-width:767px) {
   .header-box-pc {
     display: none;   }
@@ -164,4 +169,12 @@ body {
                                 text-decoration: none;   }
                                 nav.globalMenuSp.active {
                                   transform: translateX(0%);   }
+                                  .container .logo-normal {
+                                    width: 100px !important;
+                                    height: 100px !important;   }
+                                    .container .logo-no-log {
+                                      opacity: 30%;   }
+                                      .container .logo-mini {
+                                        width: 30px;
+                                        height: 30px;   }
 }

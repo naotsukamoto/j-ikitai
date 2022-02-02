@@ -146,6 +146,14 @@ body{
     }
 }
 
+/* タブレット以上 */
+@media screen and (min-width:768px) { 
+    .hamburger, .globalMenuSp{
+        display: none;
+    }
+}
+
+/* タブレット未満 */
 @media screen and (max-width:767px) { 
     .header-box-pc{
         display: none;
@@ -252,5 +260,25 @@ body{
         transform: translateX(0%);
     }
 
+    /*　ハンバーガーボタン終わり　*/
+
+    .container{
+        // img系 start
+        .logo-normal{
+            width: 100px!important;
+            height: 100px!important;
+        }
+
+        .logo-no-log{
+            opacity: 30%;
+        }
+
+        .logo-mini{
+            width: 30px;
+            height: 30px;
+        }
+        // img系 finished
+    }
+    
     
 }
