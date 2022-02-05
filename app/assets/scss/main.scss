@@ -119,7 +119,7 @@ body{
         
         .like{
             cursor: pointer;
-            font-size: 20px;
+            font-size: 36px;
         }
         
         .log-box{
@@ -264,10 +264,6 @@ body{
 
     .container{
         // img系 start
-        .logo-normal{
-            width: 100px!important;
-            height: 100px!important;
-        }
 
         .logo-no-log{
             opacity: 30%;
@@ -278,7 +274,46 @@ body{
             height: 30px;
         }
         // img系 finished
+
+        .game-block{
+
+            img{
+                width: 50px;
+                height: 50px;
+            }
+
+
+            .status-label {
+                font-size: 10px;
+                padding: 0.2rem;
+                width: 100%;
+                border-radius: 3px;
+                transition: all .2s;
+                border: 1px solid #ACB3BF;
+                color: #ACB3BF;
+            }
+            .status-box-1:checked + .status-label, .status-label-1-checked {
+                color: #060389;
+                border: 1px solid #060389;
+                text-shadow: 0 0 1px rgba(0,0,0,.7);
+            }
+            
+            .status-box-2:checked + .status-label, .status-label-2-checked {
+                color: #038910;
+                border: 1px solid #038910;
+                text-shadow: 0 0 1px rgba(0,0,0,.7);
+            }
+            
+            .status-box-3:checked + .status-label, .status-label-3-checked {
+                color: #890303;
+                border: 1px solid #890303;
+                text-shadow: 0 0 1px rgba(0,0,0,.7);
+            }
+        }
+    
+    
     }
+
     
-    
+   
 }
