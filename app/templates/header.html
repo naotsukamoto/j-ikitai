@@ -1,7 +1,42 @@
+<!-- jquery読み込み -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous">
+</script>
+<script>
+$(function() {
+    $('.hamburger').click(function() {
+        $(this).toggleClass('active');
+ 
+        if ($(this).hasClass('active')) {
+            $('.globalMenuSp').addClass('active');
+        } else {
+            $('.globalMenuSp').removeClass('active');
+        }
+    });
+});
+</script>
+
 <!-- headerを共通化 -->
-<header>
+<header class="header-box-pc">
     <span><a href="/games"><i class="fas fa-list"> 試合一覧</i></a></span>
     <span><a href="/mates-activities"><i class="fas fa-user-friends"> 仲間の観戦情報</i></a></span>
     <span><a href="/logout"><i class="fas fa-sign-out-alt"> ログアウト</i></a></span>
     <span>{{user_email}}</span>    
 </header>
+
+<header class="header-box-sp">
+</header>
+
+<div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  
+<nav class="globalMenuSp">
+    <ul>
+    <li><a href="/games"><i class="fas fa-list"> 試合一覧</i></a></li>
+    <li><a href="/mates-activities"><i class="fas fa-user-friends"> 仲間の観戦情報</i></a></li>
+    <li><a href="/logout"><i class="fas fa-sign-out-alt"> ログアウト</i></a></li>
+    <li>{{user_email}}</li>
+    </ul>
+</nav>

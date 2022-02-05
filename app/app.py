@@ -20,9 +20,15 @@ import zoneinfo
 from datetime import datetime
 # import Enum
 from enum import Enum
+# import scss
+from flask_scss import Scss
 
 # Flaskモジュール生成
 app = Flask(__name__)
+
+# Scssインスタンスの生成
+Scss(app, asset_dir='app/assets')
+
 
 # Mailインスタンスを生成
 app.config['MAIL_SERVER']= MAIL_SERVER
@@ -352,9 +358,8 @@ def like(user_watching_log_id):
 # 改行するfilterを作成する
 @app.template_filter("newline")
 def start_a_new_line(arg):
-    return Markup(arg.replace('\r','<br>'))
-
-
+    if arg: 
+        return Markup(arg.replace('\r','<br>'))
 
 # import 制御
 if __name__ == "__main__":

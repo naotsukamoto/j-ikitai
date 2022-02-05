@@ -1,0 +1,327 @@
+body{
+    text-align: center;
+
+    .header-box-pc{
+        margin: 20px 10%;
+        text-align: right;
+
+        span{
+            margin:5px;
+        }
+    }
+
+    .container{
+        margin: 0 auto;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        hr{
+            border-color: #E5E5E5;
+        }
+
+        .login-box > input,.login-box > h3 {
+            margin-bottom: 10px;
+        }    
+           
+        h3{
+            text-align: left;
+        }
+        
+        .status{
+            font-size: 12px ;
+            color: red;
+        }
+        
+        .favo-team{
+            cursor: pointer;
+        }
+        
+        input:checked + div.favo-team{
+            color: gray;
+            box-shadow: 2px 2px 4px gray;
+        }
+        
+        .status-box-1,.status-box-2,.status-box-3{
+            clip: rect(1px, 1px, 1px, 1px);
+            display: none;
+        }
+        
+        .status-label {
+            padding: 0.3rem;
+            margin: 0.5rem 0;
+            width: 80%;
+            border-radius: 3px;
+            transition: all .2s;
+            border: 1px solid #ACB3BF;
+            color: #ACB3BF;
+        }
+        
+        .status-box-1:checked + .status-label, .status-label-1-checked {
+            color: #060389;
+            border: 1px solid #060389;
+            text-shadow: 0 0 1px rgba(0,0,0,.7);
+        }
+        
+        .status-box-2:checked + .status-label, .status-label-2-checked {
+            color: #038910;
+            border: 1px solid #038910;
+            text-shadow: 0 0 1px rgba(0,0,0,.7);
+        }
+        
+        .status-box-3:checked + .status-label, .status-label-3-checked {
+            color: #890303;
+            border: 1px solid #890303;
+            text-shadow: 0 0 1px rgba(0,0,0,.7);
+        }
+        
+        .comment-area{
+            height: calc( 1.3em * 10 );
+            line-height: 1.3;
+            margin: 10px 0px;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        input{
+            width: 100%;
+            height: 50px;
+
+            .radio{
+                display:none;
+            }
+        }
+    
+        // img系 start
+        .logo-normal{
+            width: 150px;
+            height: 150px;
+        }
+
+        .logo-no-log{
+            opacity: 30%;
+        }
+
+        .logo-mini{
+            width: 30px;
+            height: 30px;
+        }
+        // img系 finished
+                
+        .edit{
+            width: 100%;
+        }
+        
+        .log-box{
+            text-align: left;
+            font-size:14px;
+            line-height: 10px;
+        }
+        
+        .like{
+            cursor: pointer;
+            font-size: 24px;
+            padding-top:10px;
+
+            a{
+                padding-top:5px;
+            }
+
+        }
+        
+        .log-box{
+            p{
+                margin:10px;
+            }
+
+            div{
+                margin:10px;
+            }
+        }
+        
+        .font-mini{
+            font-size: 12px;    
+        }
+        
+        .status-mini{
+            .status-label{
+                text-align: center;
+                font-size:12px;
+                width:150px;
+            }
+        }
+    }
+}
+
+/* タブレット以上 */
+@media screen and (min-width:768px) { 
+    .hamburger, .globalMenuSp{
+        display: none;
+    }
+}
+
+/* タブレット未満 */
+@media screen and (max-width:767px) { 
+    .header-box-pc{
+        display: none;
+    }
+
+    .header-box-sp{
+        margin: 20px 10%;
+    }
+
+    /*　ハンバーガーボタン　*/
+    // https://knoweb.net/html-css/css/responsive-hamburgermenu/#1.%E5%9F%BA%E6%9C%AC%E3%81%AE%E3%83%8F%E3%83%B3%E3%83%90%E3%83%BC%E3%82%AC%E3%83%BC%E3%83%9C%E3%82%BF%E3%83%B3
+    .hamburger {
+        display : block;
+        position: fixed;
+        z-index : 3;
+        right : 13px;
+        top   : 12px;
+        width : 42px;
+        height: 42px;
+        cursor: pointer;
+        text-align: center;
+    }
+    .hamburger span {
+        display : block;
+        position: absolute;
+        width   : 30px;
+        height  : 2px ;
+        left    : 6px;
+        background : #555;
+        -webkit-transition: 0.3s ease-in-out;
+        -moz-transition   : 0.3s ease-in-out;
+        transition        : 0.3s ease-in-out;
+    }
+    .hamburger span:nth-child(1) {
+        top: 10px;
+    }
+    .hamburger span:nth-child(2) {
+        top: 20px;
+    }
+    .hamburger span:nth-child(3) {
+        top: 30px;
+    }
+    
+    /* ナビ開いてる時のボタン */
+    .hamburger.active span:nth-child(1) {
+        top : 16px;
+        left: 6px;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform   : rotate(-45deg);
+        transform        : rotate(-45deg);
+    }
+    
+    .hamburger.active span:nth-child(2),
+    .hamburger.active span:nth-child(3) {
+        top: 16px;
+        -webkit-transform: rotate(45deg);
+        -moz-transform   : rotate(45deg);
+        transform        : rotate(45deg);
+    }
+    
+    nav.globalMenuSp {
+        position: fixed;
+        z-index : 2;
+        top  : 0;
+        left : 0;
+        color: #000;
+        background: #fff;
+        text-align: center;
+        transform: translateX(100%);
+        transition: all 0.6s;
+        width: 100%;
+    }
+    
+    nav.globalMenuSp ul {
+        background: #FFF0F5;
+        margin: 0 auto;
+        padding: 0;
+        width: 100%;
+    }
+    
+    nav.globalMenuSp ul li {
+        list-style-type: none;
+        padding: 0;
+        width: 100%;
+        border-bottom: 1px solid #fff;
+    }
+    nav.globalMenuSp ul li:last-child {
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+    nav.globalMenuSp ul li:hover{
+        background :#ddd;
+    }
+    
+    nav.globalMenuSp ul li a {
+        display: block;
+        color: #000;
+        padding: 1em 0;
+        text-decoration :none;
+    }
+    
+    /* このクラスを、jQueryで付与・削除する */
+    nav.globalMenuSp.active {
+        transform: translateX(0%);
+    }
+
+    /*　ハンバーガーボタン終わり　*/
+
+    .container{
+        font-size: 12px;
+
+        // img系 start
+        .logo-no-log{
+            opacity: 30%;
+        }
+
+        .logo-mini{
+            width: 30px;
+            height: 30px;
+        }
+        // img系 finished
+
+        .game-block{
+
+            img{
+                width: 50px;
+                height: 50px;
+            }
+
+
+            .status-label {
+                font-size: 10px;
+                padding: 0.2rem;
+                width: 100%;
+                border-radius: 3px;
+                transition: all .2s;
+                border: 1px solid #ACB3BF;
+                color: #ACB3BF;
+            }
+            .status-box-1:checked + .status-label, .status-label-1-checked {
+                color: #060389;
+                border: 1px solid #060389;
+                text-shadow: 0 0 1px rgba(0,0,0,.7);
+            }
+            
+            .status-box-2:checked + .status-label, .status-label-2-checked {
+                color: #038910;
+                border: 1px solid #038910;
+                text-shadow: 0 0 1px rgba(0,0,0,.7);
+            }
+            
+            .status-box-3:checked + .status-label, .status-label-3-checked {
+                color: #890303;
+                border: 1px solid #890303;
+                text-shadow: 0 0 1px rgba(0,0,0,.7);
+            }
+
+        }
+    
+    
+    }
+
+    
+   
+}
