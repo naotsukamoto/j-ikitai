@@ -21,7 +21,7 @@
             {% for log in logs %}
             <div class="log-box">
                 <p class="fw-bold">{{log.User.nickname}}</p>
-                <p class="fw-light text-muted font-mini">{{log.UserWatchingLog.created_at.strftime("%Y/%m/%d")}}</p>
+                <p class="fw-light text-muted">{{log.UserWatchingLog.created_at.strftime("%Y/%m/%d")}}</p>
                 {% if log.User.favo_teams_id == log.Game.home_team_id %}
                     <p class="d-inline">
                         vs{{teams[log.Game.away_team_id-1].team_name}}

@@ -85,12 +85,9 @@ body {
       margin: 10px; }
       body .container .log-box div {
         margin: 10px; }
-    body .container .font-mini {
-      font-size: 12px; }
-      body .container .status-mini .status-label {
-        text-align: center;
-        font-size: 12px;
-        width: 150px; }
+    body .container .status-mini .status-label {
+      text-align: center;
+      width: 150px; }
 
 @media screen and (min-width:768px) {
   .hamburger, .globalMenuSp {
