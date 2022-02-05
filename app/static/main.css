@@ -77,11 +77,14 @@ body {
               line-height: 10px; }
               body .container .like {
                 cursor: pointer;
-                font-size: 36px; }
-                body .container .log-box p {
-                  margin: 10px; }
-                  body .container .log-box div {
-                    margin: 10px; }
+                font-size: 24px;
+                padding-top: 10px; }
+                body .container .like a {
+                  padding-top: 5px; }
+    body .container .log-box p {
+      margin: 10px; }
+      body .container .log-box div {
+        margin: 10px; }
     body .container .font-mini {
       font-size: 12px; }
       body .container .status-mini .status-label {
@@ -169,35 +172,37 @@ body {
                                 text-decoration: none;   }
                                 nav.globalMenuSp.active {
                                   transform: translateX(0%);   }
-                                  .container .logo-no-log {
-                                    opacity: 30%;   }
-                                    .container .logo-mini {
-                                      width: 30px;
-                                      height: 30px;   }
-                                      .container .game-block img {
-                                        width: 50px;
-                                        height: 50px;   }
-                                        .container .game-block .status-label {
-                                          font-size: 10px;
-                                          padding: 0.2rem;
-                                          width: 100%;
-                                          border-radius: 3px;
-                                          transition: all 0.2s;
-                                          border: 1px solid #ACB3BF;
-                                          color: #ACB3BF;   }
-                                          .container .game-block .status-box-1:checked + .status-label,
-                                          .container .game-block .status-label-1-checked {
-                                            color: #060389;
-                                            border: 1px solid #060389;
-                                            text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);   }
-                                            .container .game-block .status-box-2:checked + .status-label,
-                                            .container .game-block .status-label-2-checked {
-                                              color: #038910;
-                                              border: 1px solid #038910;
+                                  .container {
+                                    font-size: 12px;   }
+                                    .container .logo-no-log {
+                                      opacity: 30%;   }
+                                      .container .logo-mini {
+                                        width: 30px;
+                                        height: 30px;   }
+                                        .container .game-block img {
+                                          width: 50px;
+                                          height: 50px;   }
+                                          .container .game-block .status-label {
+                                            font-size: 10px;
+                                            padding: 0.2rem;
+                                            width: 100%;
+                                            border-radius: 3px;
+                                            transition: all 0.2s;
+                                            border: 1px solid #ACB3BF;
+                                            color: #ACB3BF;   }
+                                            .container .game-block .status-box-1:checked + .status-label,
+                                            .container .game-block .status-label-1-checked {
+                                              color: #060389;
+                                              border: 1px solid #060389;
                                               text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);   }
-                                              .container .game-block .status-box-3:checked + .status-label,
-                                              .container .game-block .status-label-3-checked {
-                                                color: #890303;
-                                                border: 1px solid #890303;
+                                              .container .game-block .status-box-2:checked + .status-label,
+                                              .container .game-block .status-label-2-checked {
+                                                color: #038910;
+                                                border: 1px solid #038910;
                                                 text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);   }
+                                                .container .game-block .status-box-3:checked + .status-label,
+                                                .container .game-block .status-label-3-checked {
+                                                  color: #890303;
+                                                  border: 1px solid #890303;
+                                                  text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);   }
 }
